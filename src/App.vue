@@ -1,8 +1,13 @@
 <script setup lang="ts">
+import NavBar from './components/NavBar.vue';
+import Main from './components/Main.vue';
 </script>
 
 <template>
-   <div class="text-green-700 text-xl">Hello, from TailwindCSS!</div>
+   <div class="double-grid w-full h-screen">
+      <NavBar></NavBar>
+      <Main></Main>
+   </div>
 </template>
 
 <style scoped></style>
