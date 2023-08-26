@@ -1,3 +1,8 @@
+# Todos
+- Read the documentation for DateFNS and VeeValidate
+- Start the body component
+- Update the documentation and add enough commenting in the code
+
 # Tasks
 - Build app similar to Dribble Demo (https://dribbble.com/shots/15265805-Zendenta-Add-new-appointment)
 - Use Vee Validate for form-submission and DateFNS for date manipulation
