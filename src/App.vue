@@ -9,5 +9,3 @@ import Main from './components/Main.vue';
       <Main></Main>
    </div>
 </template>
-
-<style scoped></style>
