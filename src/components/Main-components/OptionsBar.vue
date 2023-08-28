@@ -1,4 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import { startOfToday, add, format } from 'date-fns';
+
+const selectedDate = ref(startOfToday());
+
+const getPreviousDate = () => {
+   const prevDate = add(selectedDate.value, { months: -1 });
+   selectedDate.value = prevDate;
+}
+const getNextDate = () => {
+   const nextDate = add(selectedDate.value, { months: 1 });
+   selectedDate.value = nextDate;
+}
 
 const handleRefresh = () => {
    console.log('refresh button pressed');
@@ -15,9 +28,11 @@ const handleScheduleSettingClick = () => {
 </script>
 
 <template>
-   <nav class="flex justify-between items-center border border-b-slate-300 px-10 py-4 tra">
-      <div>
-         <button></button>
+   <nav class="flex justify-between items-center border border-b-slate-300 px-10 py-4">
+      <div class="flex gap-1 justify-between items-center w-60">
+         <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getPreviousDate">&lt;</button>
+         <span class="bg-white py-1 text-slate-500 rounded-md w-full text-center">{{ format(selectedDate, 'MMMM yyyy') }}</span>
+         <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getNextDate">&gt;</button>
       </div>
       <div class="flex gap-2">
          <button @click="handleRefresh" class="optionsBarButton">
