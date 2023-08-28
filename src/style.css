@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+   .optionsBarButton {
+      @apply flex items-center bg-white px-2 py-1 rounded-lg text-sm text-slate-400 hover:text-slate-600 active:opacity-80 transition duration-75;
+   }
+}
+
 @layer base {
    .double-grid {
       display: grid;

@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const notifications: any[] = [ 1, 2, 3]; // Change the type based on the actual notifications data
+const notifications: any[] = [ 1, 2, 3 ]; // Change the type based on the actual notifications data
 const modes = ['list', 'monthly', 'weekly'];
-const mode = ref(modes[1]);
+const mode = ref(modes[0]);
 
 const toTitleCase = (word: string) => word.toLowerCase().replace(/(?:^|\s)\w/g, match => match.toUpperCase());
-const handleClick = (item: string) => {
+const handleModeChange = (item: string) => {
    if (mode.value === item) return; // Do not run if the mode hasn't changed
 
    mode.value = item;
    // More code for changing the main calendar when mode state changes
+}
+const handleAdd = () => {
+   console.log('add button pressed');
+}
+const handleNotificationClick = () => {
+   console.log('notification button pressed');
 }
 </script>
 
@@ -22,23 +28,32 @@ const handleClick = (item: string) => {
             <h1 class="text-2xl font-bold text-slate-700">Calendar</h1>
          </div>
          <div class="flex gap-5">
-            <button v-for="item in modes" @click="handleClick(item)" class="font-bold hover:text-blue-500"
-               :class="{ 'text-blue-600': mode === item, 'text-slate-500': mode !== item }">
-               {{ toTitleCase(item) }}
-            </button>
+            <button
+               v-for="item in modes"
+               @click="handleModeChange(item)"
+               class="font-bold hover:text-blue-500"
+               :class="{ 'text-blue-600': mode === item, 'text-slate-500': mode !== item }"
+            >{{ toTitleCase(item) }}</button>
          </div>
       </div>
       <div class="flex items-center w-1/5 justify-between h-11">
-         <input type="search"
-            class="px-5 h-[80%] rounded-full border border-slate-400 outline-none bg-transparent focus:bg-white focus:border-none"
-            placeholder="Search" />
+         <!-- Change the input element to handle submission later -->
+         <input
+            type="search"
+            class="px-5 h-[80%] rounded-full outline-none bg-white"
+            placeholder="Search"
+         />
          <button
-            class="flex items-center justify-center h-full aspect-square bg-blue-600 rounded-full hover:opacity-80 active:opacity-60 transition duration-100">
+            @click="handleAdd"
+            class="flex items-center justify-center h-full aspect-square bg-blue-600 rounded-full hover:opacity-80 active:opacity-60 transition duration-100"
+         >
             <span class="material-symbols-outlined text-white text-2xl">add</span>
          </button>
-         <button class="flex relative p-2 rounded-full bg-white hover:bg-slate-100 active:bg-slate-200">
-            <div v-if="notifications.length"
-               class="flex absolute top-0 right-0 bg-red-500 h-4 w-4 rounded-full translate-x-1"></div>
+         <button
+            @click="handleNotificationClick"
+            class="flex relative p-2 rounded-full bg-white hover:bg-slate-100 active:bg-slate-200"
+         >
+            <div v-if="notifications.length" class="flex absolute top-0 right-0 bg-red-500 h-4 w-4 rounded-full translate-x-1"></div>
             <span class="material-symbols-outlined">notifications</span>
          </button>
       </div>
