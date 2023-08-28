@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "date-fns": "^2.30.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
