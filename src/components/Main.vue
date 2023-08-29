@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import Header from './Main-components/Header.vue';
 import OptionsBar from './Main-components/OptionsBar.vue';
+import Body from './Main-components/Body.vue';
 </script>
 
 <template>
-   <div class="bg-blue-100">
+   <div class="flex flex-col h-screen bg-blue-100 pb-5">
       <Header></Header>
       <OptionsBar></OptionsBar>
+      <Body></Body>
    </div>
 </template>
 

@@ -21,7 +21,7 @@ const handleNotificationClick = () => {
 </script>
 
 <template>
-   <header class="flex justify-between px-10 py-4 items-center border border-b-slate-300">
+   <header class="flex justify-between px-10 py-4 items-center border border-b-slate-300 h-[8%]">
       <div class="flex gap-10">
          <div class="flex justify-center items-center gap-3">
             <span class="material-symbols-outlined text-4xl text-blue-600 font-bold">calendar_month</span>

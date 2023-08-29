@@ -13,4 +13,11 @@
       display: grid;
       grid-template-columns: min-content 1fr;
    }
+   ::-webkit-scrollbar {
+      width: 0.5em;
+   }
+   ::-webkit-scrollbar-thumb {
+      background-color: #A6A9B1;
+      border-radius: 1em;
+   }
 }

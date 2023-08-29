@@ -1,8 +1,5 @@
 # Todos
-- Read the documentation for DateFNS and VeeValidate
-- For the main calendar try getting the dates/times as an array and render each block on the page
-   - Each block with contain data about events, times, etc. that the user has entered
-   - Each block is clickable which opens the slide-in panel with rendered data based on the block that was clicked (e.g. Date)
+- Read the documentation for VeeValidate
 - Update the documentation and add enough commenting in the code
 - Ask Cassy if I should make it responsive at least for most monitors
 
@@ -12,7 +9,7 @@
 - Code should be cleaned and maintainable
 - Add the following features:
    - Date filtering
-   - Clickable & Draggable date times
+   - Clickable & Draggable events (similar to tasks in Google Calendar)
    - Appearing slide-over panel when date-time is clicked
 
 # Setup instructions

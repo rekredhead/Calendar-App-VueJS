@@ -1,7 +1,28 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { startOfToday, add, format } from 'date-fns';
+import { startOfToday, startOfWeek, endOfWeek, add, format } from 'date-fns';
 
+const currentDate = startOfToday();
+const currentWeekStart = startOfWeek(currentDate);
+const currentWeekEnd = endOfWeek(currentDate);
+
+const selectedWeekStart = ref(currentWeekStart);
+const selectedWeekEnd = ref(currentWeekEnd);
+
+const getPreviousDate = () => {
+   const prevWeekStart = add(selectedWeekStart.value, { weeks: -1 });
+   const prevWeekEnd = add(selectedWeekEnd.value, { weeks: -1 });
+   selectedWeekStart.value = prevWeekStart;
+   selectedWeekEnd.value = prevWeekEnd;
+}
+const getNextDate = () => {
+   const nextWeekStart = add(selectedWeekStart.value, { weeks: 1 });
+   const nextWeekEnd = add(selectedWeekEnd.value, { weeks: 1 });
+   selectedWeekStart.value = nextWeekStart;
+   selectedWeekEnd.value = nextWeekEnd;
+}
+
+/*
 const selectedDate = ref(startOfToday());
 
 const getPreviousDate = () => {
@@ -12,6 +33,7 @@ const getNextDate = () => {
    const nextDate = add(selectedDate.value, { months: 1 });
    selectedDate.value = nextDate;
 }
+*/
 
 const handleRefresh = () => {
    console.log('refresh button pressed');
@@ -28,10 +50,12 @@ const handleScheduleSettingClick = () => {
 </script>
 
 <template>
-   <nav class="flex justify-between items-center border border-b-slate-300 px-10 py-4">
+   <nav class="flex justify-between items-center border border-b-slate-300 px-10 py-4 h-[6%]">
       <div class="flex gap-1 justify-between items-center w-60">
          <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getPreviousDate">&lt;</button>
-         <span class="bg-white py-1 text-slate-500 rounded-md w-full text-center">{{ format(selectedDate, 'MMMM yyyy') }}</span>
+         <span class="bg-white py-1 text-slate-500 rounded-md w-full text-center">
+            {{ `${format(selectedWeekStart, 'MMM dd')} - ${format(selectedWeekEnd, 'MMM dd, yyyy')}` }}
+         </span>
          <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getNextDate">&gt;</button>
       </div>
       <div class="flex gap-2">
