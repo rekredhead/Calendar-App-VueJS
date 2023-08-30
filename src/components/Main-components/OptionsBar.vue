@@ -3,8 +3,8 @@ import { ref } from 'vue';
 import { startOfToday, startOfWeek, endOfWeek, add, format } from 'date-fns';
 
 const currentDate = startOfToday();
-const currentWeekStart = startOfWeek(currentDate);
-const currentWeekEnd = endOfWeek(currentDate);
+const currentWeekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
+const currentWeekEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
 
 const selectedWeekStart = ref(currentWeekStart);
 const selectedWeekEnd = ref(currentWeekEnd);
