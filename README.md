@@ -1,7 +1,7 @@
 # Todos
-- Read the documentation for VeeValidate
 - Update the documentation and add enough commenting in the code
 - Ask Cassy if I should make it responsive at least for most monitors
+- Create reactive variables for data such as UserName, UserCareer, Profile-picture, UserEmail
 
 # Tasks
 - Build app similar to Dribble Demo (https://dribbble.com/shots/15265805-Zendenta-Add-new-appointment)
