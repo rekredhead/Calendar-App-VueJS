@@ -2,6 +2,7 @@
 import Header from './Main-components/Header.vue';
 import OptionsBar from './Main-components/OptionsBar.vue';
 import Body from './Main-components/Body.vue';
+import SidePanel from './Main-components/SidePanel.vue';
 
 import { startOfToday, startOfWeek, endOfWeek, add } from 'date-fns';
 import { ref } from 'vue';
@@ -22,6 +23,13 @@ const getNextDate = () => {
    selectedWeekEnd.value = add(selectedWeekEnd.value, { weeks: 1 });
 }
 
+const isSidePanelOpen = ref(false);
+const selectedDate = ref(currentDate);
+const openSidePanel = (dateTime: Date) => {
+   isSidePanelOpen.value = true;
+   selectedDate.value = dateTime;
+};
+
 /*
 const selectedDate = ref(startOfToday());
 
@@ -38,30 +46,20 @@ const getNextDate = () => {
 
 <template>
    <div class="flex flex-col h-screen bg-blue-100 pb-5">
-      <Header></Header>
-      <OptionsBar
-         :selectedWeekStart="selectedWeekStart"
-         :selectedWeekEnd="selectedWeekEnd"
-         :getPreviousDate="getPreviousDate"
-         :getNextDate="getNextDate"
-      ></OptionsBar>
-      <Body
-         :selectedWeekStart="selectedWeekStart"
-         :selectedWeekEnd="selectedWeekEnd"
-      ></Body>
+      <div class="h-full" :class="{ 'pointer-events-none opacity-40': isSidePanelOpen }">
+         <Header></Header>
+         <OptionsBar
+            :selectedWeekStart="selectedWeekStart"
+            :selectedWeekEnd="selectedWeekEnd"
+            :getPreviousDate="getPreviousDate"
+            :getNextDate="getNextDate"
+         ></OptionsBar>
+         <Body
+            :selectedWeekStart="selectedWeekStart"
+            :selectedWeekEnd="selectedWeekEnd"
+            :openSidePanel="openSidePanel"
+         ></Body>
+      </div>
+      <SidePanel :isSidePanelOpen="isSidePanelOpen" :selectedDate="selectedDate" />
    </div>
 </template>
-
-<!--
-import { ref } from 'vue';
-
-const isSidePanelOpen = ref(false);
-
-<button @click="isSidePanelOpen = !isSidePanelOpen"
-   class="border text-white p-3 m-5 hover:bg-blue-500 active:bg-blue-400">click me!</button>
-<aside
-   class="flex fixed bg-blue-200 top-0 bottom-0 right-0 w-80 transform transition-transform duration-300"
-   :class="{ 'translate-x-0': isSidePanelOpen, 'translate-x-full': !isSidePanelOpen }">
-   Slide-panel
-</aside>
--->

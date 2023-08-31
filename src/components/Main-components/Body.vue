@@ -4,7 +4,8 @@ import { computed } from 'vue';
 
 const props = defineProps({
    selectedWeekStart: Date,
-   selectedWeekEnd: Date
+   selectedWeekEnd: Date,
+   openSidePanel: Function
 });
 
 const currentDate = startOfToday();
@@ -26,8 +27,8 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, currentDay: Date) => {
    const decimalMinutes = (yCoordinate / maxHeight) * 60;
    const roundedMinutes = Math.round(decimalMinutes / 15) * 15;
 
-   const time = set(currentDay, { hours: selectedHour, minutes: roundedMinutes })
-   return format(time, 'dd-MMM-yyyy HH:mm');
+   const time = set(currentDay, { hours: selectedHour, minutes: roundedMinutes });
+   props.openSidePanel!(time);
 }
 </script>
 
