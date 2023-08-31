@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 const notifications: any[] = [ 1, 2, 3 ]; // Change the type based on the actual notifications data
 const modes = ['list', 'monthly', 'weekly'];
-const mode = ref(modes[0]);
+const mode = ref(modes[2]);
 
 const toTitleCase = (word: string) => word.toLowerCase().replace(/(?:^|\s)\w/g, match => match.toUpperCase());
 const handleModeChange = (item: string) => {

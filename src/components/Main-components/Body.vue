@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { eachDayOfInterval, getHours, endOfWeek, startOfToday, startOfWeek, set, format, isSameDay, eachHourOfInterval } from 'date-fns';
-//import { ref } from 'vue';
+import store from '../../assets/store';
 
 const currentDate = startOfToday();
 const currentWeekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
 const currentWeekEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
 
-const daysOfWeek = eachDayOfInterval({ start: currentWeekStart, end: currentWeekEnd });
+const selectedWeekStart = store.selectedWeekStart;
+const selectedWeekEnd = store.selectedWeekEnd;
+
+const daysOfWeek = eachDayOfInterval({ start: store.selectedWeekStart, end: store.selectedWeekEnd });
 const hoursOfDay = eachHourOfInterval({ start: currentDate, end: set(currentDate, { hours: 23 }) });
 
 const handleDateTimeClick = (e: MouseEvent, hour: Date, currentDay: Date) => {
