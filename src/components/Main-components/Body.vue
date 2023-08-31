@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { eachDayOfInterval, endOfWeek, startOfToday, startOfWeek, set, format, isSameDay, eachHourOfInterval } from 'date-fns';
+import { eachDayOfInterval, getHours, endOfWeek, startOfToday, startOfWeek, set, format, isSameDay, eachHourOfInterval } from 'date-fns';
 //import { ref } from 'vue';
 
 const currentDate = startOfToday();
@@ -9,21 +9,17 @@ const currentWeekEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
 const daysOfWeek = eachDayOfInterval({ start: currentWeekStart, end: currentWeekEnd });
 const hoursOfDay = eachHourOfInterval({ start: currentDate, end: set(currentDate, { hours: 23 }) });
 
-const convertDecimalTimeTo24HourTime = (decimalTime: number) => {
-   const hours = Math.floor(decimalTime);
-   const decimalMinutes = (decimalTime - hours) * 60;
+const handleDateTimeClick = (e: MouseEvent, hour: Date, currentDay: Date) => {
+   const selectedHour = getHours(hour);
+   const eventTarget = e.target as HTMLElement;
+   
+   const yCoordinate = e.offsetY > 0 ? e.offsetY : 1;
+   const maxHeight = eventTarget.clientHeight;
+   const decimalMinutes = (yCoordinate / maxHeight) * 60;
    const roundedMinutes = Math.round(decimalMinutes / 15) * 15;
 
-   const time = set(new Date(), { hours, minutes: roundedMinutes });
-   return format(time, 'HH:mm');
-}
-
-const handleDateTimeClick = (e: any) => {
-   const yCoordinate = e.offsetY > 0 ? e.offsetY : 1;
-   const maxHeight = e.target.clientHeight;
-
-   const timeSelected = (yCoordinate / maxHeight) * 24;
-   console.log(convertDecimalTimeTo24HourTime(timeSelected));
+   const time = set(currentDay, { hours: selectedHour, minutes: roundedMinutes })
+   return format(time, 'dd-MMM-yyyy HH:mm');
 }
 </script>
 
@@ -56,7 +52,8 @@ const handleDateTimeClick = (e: any) => {
             <div v-for="hour in hoursOfDay" class="h-16 text-slate-500 text-center">{{ format(hour, 'HH:mm') }}</div>
          </div>
          <div class="flex w-full h-full mt-3">
-            <div @click="handleDateTimeClick" v-for="_ in daysOfWeek" class="w-full">
+            <div v-for="day in daysOfWeek" class="w-full">
+               <div v-for="hour in hoursOfDay" @click="handleDateTimeClick($event, hour, day)" class="h-16 border-l border-t border-slate-400 last:border-b"></div>
             </div>
          </div>
       </div>
