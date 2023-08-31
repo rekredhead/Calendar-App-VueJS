@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import store from '../../assets/store';
 import { format } from 'date-fns';
 
-const getPreviousDate = store.getPreviousDate;
-const getNextDate = store.getNextDate;
+defineProps<{
+   selectedWeekStart: Date,
+   selectedWeekEnd: Date,
+   getPreviousDate: Function,
+   getNextDate: Function
+}>();
 
 const handleRefresh = () => {
    console.log('refresh button pressed');
@@ -22,11 +25,11 @@ const handleScheduleSettingClick = () => {
 <template>
    <nav class="flex justify-between items-center border border-b-slate-300 px-10 py-4 h-[6%]">
       <div class="flex gap-1 justify-between items-center w-60">
-         <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getPreviousDate">&lt;</button>
+         <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getPreviousDate()">&lt;</button>
          <span class="bg-white py-1 text-slate-500 rounded-md w-full text-center">
-            {{ `${format(store.selectedWeekStart, 'MMM dd')} - ${format(store.selectedWeekEnd, 'MMM dd, yyyy')}` }}
+            {{ `${format(selectedWeekStart, 'MMM dd')} - ${format(selectedWeekEnd, 'MMM dd, yyyy')}` }}
          </span>
-         <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getNextDate">&gt;</button>
+         <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getNextDate()">&gt;</button>
       </div>
       <div class="flex gap-2">
          <button @click="handleRefresh" class="optionsBarButton">

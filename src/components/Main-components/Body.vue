@@ -1,21 +1,26 @@
 <script setup lang="ts">
-import { eachDayOfInterval, getHours, endOfWeek, startOfToday, startOfWeek, set, format, isSameDay, eachHourOfInterval } from 'date-fns';
-import store from '../../assets/store';
+import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval } from 'date-fns';
+import { computed } from 'vue';
+
+const props = defineProps({
+   selectedWeekStart: Date,
+   selectedWeekEnd: Date
+});
 
 const currentDate = startOfToday();
-const currentWeekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
-const currentWeekEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
-
-const selectedWeekStart = store.selectedWeekStart;
-const selectedWeekEnd = store.selectedWeekEnd;
-
-const daysOfWeek = eachDayOfInterval({ start: store.selectedWeekStart, end: store.selectedWeekEnd });
-const hoursOfDay = eachHourOfInterval({ start: currentDate, end: set(currentDate, { hours: 23 }) });
+const daysOfWeek = computed(() => eachDayOfInterval({
+   start: props.selectedWeekStart!,
+   end: props.selectedWeekEnd!
+}));
+const hoursOfDay = eachHourOfInterval({
+   start: currentDate,
+   end: set(currentDate, { hours: 23 })
+});
 
 const handleDateTimeClick = (e: MouseEvent, hour: Date, currentDay: Date) => {
    const selectedHour = getHours(hour);
    const eventTarget = e.target as HTMLElement;
-   
+
    const yCoordinate = e.offsetY > 0 ? e.offsetY : 1;
    const maxHeight = eventTarget.clientHeight;
    const decimalMinutes = (yCoordinate / maxHeight) * 60;
@@ -35,16 +40,11 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, currentDay: Date) => {
          </div>
          <div class="flex w-full">
             <div class="flex w-full justify-center items-center text-slate-500" v-for="dayOfWeek in daysOfWeek">
-               <p
-                  :class="{ 'text-white bg-blue-600': isSameDay(dayOfWeek, currentDate) }"
-                  class="flex items-center justify-center h-3/4 aspect-square text-xl rounded-full"
-               >
+               <p :class="{ 'text-white bg-blue-600': isSameDay(dayOfWeek, currentDate) }"
+                  class="flex items-center justify-center h-3/4 aspect-square text-xl rounded-full">
                   {{ format(dayOfWeek, 'dd') }}
                </p>
-               <p
-                  :class="{ 'text-blue-600 ml-1': isSameDay(dayOfWeek, currentDate) }"
-                  class="font-bold"
-               >
+               <p :class="{ 'text-blue-600 ml-1': isSameDay(dayOfWeek, currentDate) }" class="font-bold">
                   {{ format(dayOfWeek, 'EEE') }}
                </p>
             </div>
@@ -56,7 +56,8 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, currentDay: Date) => {
          </div>
          <div class="flex w-full h-full mt-3">
             <div v-for="day in daysOfWeek" class="w-full">
-               <div v-for="hour in hoursOfDay" @click="handleDateTimeClick($event, hour, day)" class="h-16 border-l border-t border-slate-400 last:border-b"></div>
+               <div v-for="hour in hoursOfDay" @click="handleDateTimeClick($event, hour, day)"
+                  class="h-16 border-l border-t border-slate-400 last:border-b"></div>
             </div>
          </div>
       </div>
