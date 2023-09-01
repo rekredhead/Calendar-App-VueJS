@@ -1,12 +1,13 @@
 <script setup lang="ts">
+
 import { ref, computed } from 'vue';
 
 const availableServices = [
-   { nameOfService: 'service1', price: '0' },
-   { nameOfService: 'service2', price: '10' },
-   { nameOfService: 'service3', price: '20' },
-   { nameOfService: 'service4', price: '30' },
-   { nameOfService: 'service5', price: '40' },
+   { nameOfService: 'service1', price: 0 },
+   { nameOfService: 'service2', price: 10 },
+   { nameOfService: 'service3', price: 20 },
+   { nameOfService: 'service4', price: 30 },
+   { nameOfService: 'service5', price: 40 },
 ];
 type selectServiceProps = {
    nameOfService: string,
@@ -21,13 +22,9 @@ const filteredServices = computed(() => {
 });
 
 const selectService = (service: selectServiceProps) => {
-   searchText.value = service.nameOfService;
+   selectedService.value = service.nameOfService;
    isOpen.value = false;
 }
-
-/** Todos
- * Modify the current selector to look like the demo app => Input cannot be typed on
- */
 </script>
 
 <template>
@@ -50,34 +47,41 @@ const selectService = (service: selectServiceProps) => {
             <!-- Render the choice selected if their choice was selected -->
             <button
                id="serviceSelect"
+               v-show="!selectedService"
                @click="isOpen = !isOpen"
-               @blur="isOpen = false"
                class="flex w-full border border-gray-300 justify-center py-4 items-center gap-2 rounded-md focus:ring-1"
             >
                <span
                   class="material-symbols-outlined bg-blue-600 w-6 h-6 rounded-full text-white text-base">add</span>
                <p class="text-slate-400 font-semibold">Add Service</p>
             </button>
+            <div
+               v-show="isOpen"
+               class="absolute mt-2 w-full bg-white shadow-md shadow-slate-300 rounded-md p-2 z-10"
+            >
+               <input
+                  type="text"
+                  class="bg-slate-100 text-slate-500 w-full px-5 py-3 rounded-md outline-none"
+                  v-model="searchText"
+                  placeholder="Search services"
+                  autofocus="true"
+               />
+               <ul class="h-64 overflow-y-scroll">
+                  <li
+                     v-for="(service, index) in filteredServices"
+                     :key="index"
+                     class="flex justify-between px-5 py-3 text-slate-500 cursor-pointer border-l-4 border-transparent hover:bg-green-100 hover:text-green-500 hover:border-green-500"
+                     @click="selectService(service)"
+                  >
+                     <span class="text-lg">{{ service.nameOfService }}</span>
+                     <span class="font-bold">{{ service.price ? `$${service.price}` : 'Free' }}</span>
+                  </li>
+               </ul>
+            </div>
+            <div>
+
+            </div>
          </div>
       </div>
    </div>
 </template>
-
-<!--
-<div v-show="isOpen" class="absolute mt-2 w-full bg-white border border-blue-300 shadow-lg rounded-md">
-               <input
-                  type="text"
-                  class="w-full py-2 px-3 border-b border-gray-300 focus:outline-none"
-                  
-                  placeholder="Search services"
-                  autofocus="true"
-               />
-               <ul>
-                  <li v-for="(service, index) in filteredServices" :key="index"
-                     class="p-3 hover:bg-green-100 hover:text-blue-800 cursor-pointer" @click="selectService(service)">
-                     <span class="mr-2">{{ service.nameOfService }}</span>
-                     <span>{{ service.price }}</span>
-                  </li>
-               </ul>
-            </div>
--->

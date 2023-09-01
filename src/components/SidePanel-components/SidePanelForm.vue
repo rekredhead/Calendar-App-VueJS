@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import ServiceSelector from './ServiceSelector.vue';
+
+// Think of how the overall form will work => including missing inputs
 </script>
 
 <template>
