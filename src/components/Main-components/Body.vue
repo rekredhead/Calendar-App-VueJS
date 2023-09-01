@@ -18,7 +18,7 @@ const hoursOfDay = eachHourOfInterval({
    end: set(currentDate, { hours: 23 })
 });
 
-const handleDateTimeClick = (e: MouseEvent, hour: Date, currentDay: Date) => {
+const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
    const selectedHour = getHours(hour);
    const eventTarget = e.target as HTMLElement;
 
@@ -27,7 +27,7 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, currentDay: Date) => {
    const decimalMinutes = (yCoordinate / maxHeight) * 60;
    const roundedMinutes = Math.round(decimalMinutes / 15) * 15;
 
-   const time = set(currentDay, { hours: selectedHour, minutes: roundedMinutes });
+   const time = set(selectedDay, { hours: selectedHour, minutes: roundedMinutes });
    props.openSidePanel!(time);
 }
 </script>

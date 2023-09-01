@@ -3,7 +3,8 @@
 // Each form item was difficult to reuse, hence they have their own component
 
 const props = defineProps({
-   selectedDate: Date
+   selectedDate: Date,
+   closeSidePanel: Function
 });
 
 import { ref } from 'vue';
@@ -40,6 +41,8 @@ const submitForm = () => {
       startingDateTime: startingDateTime.value,
       endingDateTime: endingDateTime.value
    });
+
+   props.closeSidePanel!();
 }
 </script>
 
@@ -56,7 +59,7 @@ const submitForm = () => {
          />
       </div>
       <div class=" flex justify-end gap-4 h-12 w-full">
-         <button class="bg-slate-100 text-slate-500 font-bold rounded-md w-1/4 hover:bg-slate-200">Cancel</button>
+         <button @click="props.closeSidePanel!()" class="bg-slate-100 text-slate-500 font-bold rounded-md w-1/4 hover:bg-slate-200">Cancel</button>
          <button @click="submitForm" class="bg-slate-400 text-white font-bold rounded-md w-1/4 hover:bg-slate-500">Save</button>
       </div>
    </form>

@@ -9,7 +9,7 @@ const props = defineProps({
    setEndingDateTime: Function
 });
 
-const isEditingOn = ref(true);
+const isEditingOn = ref(false);
 const selectedDate = ref('');
 const selectedStartingTime = ref('');
 const selectedEndingTime = ref('');

@@ -23,14 +23,16 @@ const getNextDate = () => {
    selectedWeekEnd.value = add(selectedWeekEnd.value, { weeks: 1 });
 }
 
-const isSidePanelOpen = ref(true); // Change to false when finished
+const isSidePanelOpen = ref(false);
 const selectedDate = ref(currentDate);
 const openSidePanel = (dateTime: Date) => {
    isSidePanelOpen.value = true;
    selectedDate.value = dateTime;
 };
-
-// Check if the date is correctly sent to the slide-in panel when calendar is clicked on
+const closeSidePanel = () => {
+   isSidePanelOpen.value = false;
+   // Modify this to add appointments in the calendar
+}
 
 /*
 const selectedDate = ref(startOfToday());
@@ -61,6 +63,6 @@ const getNextDate = () => {
          :selectedWeekEnd="selectedWeekEnd"
          :openSidePanel="openSidePanel"
       ></Body>
-      <SidePanel :isSidePanelOpen="isSidePanelOpen" :selectedDate="selectedDate" />
+      <SidePanel :isSidePanelOpen="isSidePanelOpen" :closeSidePanel="closeSidePanel" :selectedDate="selectedDate" />
    </div>
 </template>
