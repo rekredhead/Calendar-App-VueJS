@@ -30,6 +30,8 @@ const openSidePanel = (dateTime: Date) => {
    selectedDate.value = dateTime;
 };
 
+// Check if the date is correctly sent to the slide-in panel when calendar is clicked on
+
 /*
 const selectedDate = ref(startOfToday());
 

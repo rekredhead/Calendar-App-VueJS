@@ -1,33 +1,57 @@
 <script setup lang="ts">
-import { addHours, format, parseISO, set } from 'date-fns';
+import { addMinutes, format, parseISO, set, startOfHour, isAfter } from 'date-fns';
 import { ref } from 'vue';
 
 const props = defineProps({
-   dateTime: Date,
-   setDateTime: Function
+   startingDateTime: Date,
+   endingDateTime: Date,
+   setStartingDateTime: Function,
+   setEndingDateTime: Function
 });
 
-const isEditingOn = ref(false);
+const isEditingOn = ref(true);
 const selectedDate = ref('');
-const selectedTime = ref('');
+const selectedStartingTime = ref('');
+const selectedEndingTime = ref('');
 
-const selectDateTime = () => {
+const roundTimeToNearest15Minutes = (e: Event) => {
+   const eventTarget = e.target as HTMLInputElement;
+   const parsedTime = parseISO(`1970-01-01T${eventTarget.value}`);
+
+   const roundedTime = addMinutes(
+      startOfHour(parsedTime),
+      Math.round(parsedTime.getMinutes() / 15) * 15
+   );
+
+   eventTarget.value = format(roundedTime, 'HH:mm');
+}
+
+const submitDateTime = () => {
    const parsedDate = parseISO(selectedDate.value);
-   const parsedTime = parseISO(`1970-01-01T${selectedTime.value}`);
+   const parsedStartingTime = parseISO(`1970-01-01T${selectedStartingTime.value}`);
+   const parsedEndingTime = parseISO(`1970-01-01T${selectedEndingTime.value}`);
 
-   const combinedDateTime = set(parsedDate, {
-      hours: parsedTime.getHours(),
-      minutes: parsedTime.getMinutes(),
-      seconds: parsedTime.getSeconds(),
+   const combinedStartingDateTime = set(parsedDate, {
+      hours: parsedStartingTime.getHours(),
+      minutes: parsedStartingTime.getMinutes(),
+   });
+   const combinedEndingDateTime = set(parsedDate, {
+      hours: parsedEndingTime.getHours(),
+      minutes: parsedEndingTime.getMinutes()
    });
 
-   props.setDateTime!(combinedDateTime);
+   if (isAfter(combinedStartingDateTime, combinedEndingDateTime)) {
+      alert('The ending time must be higher than the starting time');
+      return;
+   }
+
+   props.setStartingDateTime!(combinedStartingDateTime);
+   props.setEndingDateTime!(combinedEndingDateTime);
    isEditingOn.value = false;
 }
 </script>
 
 <template>
-   <!---->
    <div class="flex">
       <div class="flex relative justify-center items-center w-36">
          <!-- Indicator for whether the input is filled or not -->
@@ -45,17 +69,23 @@ const selectDateTime = () => {
             <div v-show="isEditingOn" class="flex w-full gap-5">
                <input type="date" v-model="selectedDate"
                   class="border border-gray-300 w-full py-4 text-center rounded-md px-5 focus:ring-1 outline-none" />
-               <input type="time" v-model="selectedTime"
-                  class="border border-gray-300 w-full py-4 text-center rounded-md px-5 focus:ring-1 outline-none" />
+               <div class="flex items-center gap-2 w-full">
+                  <input type="time" v-model="selectedStartingTime" @change="roundTimeToNearest15Minutes"
+                     class="border border-gray-300 w-full py-4 text-center rounded-md px-5 focus:ring-1 outline-none" />
+                  <p>-</p>
+                  <input type="time" v-model="selectedEndingTime" @change="roundTimeToNearest15Minutes"
+                     class="border border-gray-300 w-full py-4 text-center rounded-md px-5 focus:ring-1 outline-none" />
+               </div>
             </div>
 
-            <button v-show="isEditingOn" @click="selectDateTime"
+            <button v-show="isEditingOn" @click="submitDateTime"
                class=" bg-blue-600 text-white font-bold px-10 py-2 rounded-md hover:bg-blue-700 active:opacity-70">Confirm</button>
 
             <!-- Render the choice selected if their choice was selected v-show="isDateTimeSelected()" -->
             <div class="flex flex-col w-full gap-2 px-2" v-show="!isEditingOn">
-               <h1 class="text-xl text-gray-700">{{ format(props.dateTime!, 'EEEE, dd MMMM HH:mm') }}-{{
-                  format(addHours(props.dateTime!, 1), 'HH:mm') }}</h1>
+               <h1 class="text-xl text-gray-700">
+                  {{ format(props.startingDateTime!, 'EEEE, dd MMMM HH:mm') }} - {{ format(props.endingDateTime!, 'HH:mm') }}
+               </h1>
                <h2 class="text-slate-400 text-sm">*patient approval is needed</h2>
             </div>
          </div>
