@@ -33,7 +33,6 @@ const selectService = (service: selectServiceProps) => {
 </script>
 
 <template>
-   <!--{{ format(props.selectedDate!, 'EEEE, dd MMMM HH:mm') }}-->
    <div class="flex">
       <div class="flex relative justify-center items-center w-36">
          <!-- Indicator for whether the input is filled or not -->

@@ -46,7 +46,7 @@ const selectPatients = (patient: selectPatientProps) => {
       </div>
       <div class="flex flex-col w-full p-4 gap-4 shadow-md shadow-slate-300 rounded-lg mb-5">
          <div class="flex justify-between items-center">
-            <label class="text-gray-700 text-sm font-bold" for="serviceSelect">
+            <label class="text-gray-700 text-sm font-bold" for="patientSelect">
                {{ isPatientSelected() ? 'PATIENT INFORMATION' : 'THEN YOU NEED TO ADD PATIENT' }}
             </label>
             <button v-if="isPatientSelected()" @click="props.setPatient!({})"
@@ -54,7 +54,7 @@ const selectPatients = (patient: selectPatientProps) => {
          </div>
          <div class="relative">
             <!-- Render the dropdown box if user hasn't selected anything yet -->
-            <button id="serviceSelect" v-show="!isPatientSelected()" @click="isOpen = !isOpen"
+            <button id="patientSelect" v-show="!isPatientSelected()" @click="isOpen = !isOpen"
                class="flex w-full border border-gray-300 justify-center py-4 items-center gap-2 rounded-md focus:ring-1">
                <span class="material-symbols-outlined bg-blue-600 w-6 h-6 rounded-full text-white text-base">add</span>
                <p class="text-slate-400 font-semibold">Add Patient</p>
