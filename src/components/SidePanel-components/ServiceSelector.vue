@@ -1,6 +1,10 @@
 <script setup lang="ts">
-
 import { ref, computed } from 'vue';
+
+const props = defineProps({
+   service: Object,
+   setService: Function
+});
 
 const availableServices = [
    { nameOfService: 'service1', price: 0 },
@@ -9,11 +13,8 @@ const availableServices = [
    { nameOfService: 'service4', price: 30 },
    { nameOfService: 'service5', price: 40 },
 ];
-type selectServiceProps = {
-   nameOfService: string,
-}
 
-const selectedService = ref('');
+const isServiceSelected = () => Object.keys(props.service!).length;
 
 const isOpen = ref(false);
 const searchText = ref('');
@@ -21,33 +22,37 @@ const filteredServices = computed(() => {
    return availableServices.filter((service) => service.nameOfService.toLowerCase().includes(searchText.value.toLowerCase()))
 });
 
+type selectServiceProps = {
+   nameOfService: string,
+   price: number
+}
 const selectService = (service: selectServiceProps) => {
-   selectedService.value = service.nameOfService;
+   props.setService!(service);
    isOpen.value = false;
 }
 </script>
 
 <template>
+   <!--{{ format(props.selectedDate!, 'EEEE, dd MMMM HH:mm') }}-->
    <div class="flex">
       <div class="flex relative justify-center items-center w-36">
          <!-- Indicator for whether the input is filled or not -->
-         <div class="formFillIndicator" :class="{ 'bg-green-500': selectedService }">1</div>
-         <div class="flex absolute bottom-0 h-1/2 bg-blue-100 w-2"></div>
+         <div class="formFillIndicator" :class="{ 'bg-green-500': isServiceSelected() }">1</div>
+         <div class="flex absolute bottom-0 h-full bg-blue-100 w-2"></div>
       </div>
-      <div class="flex flex-col w-full p-4 gap-4 shadow-md shadow-slate-300 rounded-lg">
+      <div class="flex flex-col w-full p-4 gap-4 shadow-md shadow-slate-300 rounded-lg mb-5">
          <div class="flex justify-between items-center">
             <label class="text-gray-700 text-sm font-bold" for="serviceSelect">
-               {{ selectedService ? 'SERVICE INFORMATION' : 'FIRST YOU NEED TO ADD A SERVICE' }}
+               {{ isServiceSelected() ? 'SERVICE INFORMATION' : 'FIRST YOU NEED TO ADD A SERVICE' }}
             </label>
-            <button v-if="selectedService"
+            <button v-if="isServiceSelected()" @click="props.setService!({})"
                class="text-blue-600 text-sm font-bold hover:bg-blue-600 hover:text-white px-2 py-1 rounded-md active:opacity-70">EDIT</button>
          </div>
          <div class="relative">
             <!-- Render the dropdown box if user hasn't selected anything yet -->
-            <!-- Render the choice selected if their choice was selected -->
             <button
                id="serviceSelect"
-               v-show="!selectedService"
+               v-show="!isServiceSelected()"
                @click="isOpen = !isOpen"
                class="flex w-full border border-gray-300 justify-center py-4 items-center gap-2 rounded-md focus:ring-1"
             >
@@ -78,8 +83,14 @@ const selectService = (service: selectServiceProps) => {
                   </li>
                </ul>
             </div>
-            <div>
-
+            
+            <!-- Render the choice selected if their choice was selected -->
+            <div class="flex justify-between items-center" v-show="isServiceSelected()">
+               <div>
+                  <h1 class="text-xl">{{ service?.nameOfService }}</h1>
+                  <h2 class="text-slate-400 text-sm">Subtext here</h2>
+               </div>
+               <button class="bg-green-500 text-white font-semibold px-5 h-10 rounded-md hover:bg-green-600 active:opacity-70">Meeting Room</button>
             </div>
          </div>
       </div>
