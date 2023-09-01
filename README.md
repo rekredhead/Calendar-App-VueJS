@@ -1,7 +1,8 @@
 # Todos
 - Update the documentation and add enough commenting in the code
-- Ask Cassy if I should make it responsive at least for most monitors
+- Make the page a bit more responsive for my screens ( no need to worry about mobile )
 - Create reactive variables for data such as UserName, UserCareer, Profile-picture, UserEmail
+- Clean the code ( make identifiable components even if they don't duplicate )
 
 # Tasks
 - Build app similar to Dribble Demo (https://dribbble.com/shots/15265805-Zendenta-Add-new-appointment)

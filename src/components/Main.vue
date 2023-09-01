@@ -2,7 +2,7 @@
 import Header from './Main-components/Header.vue';
 import OptionsBar from './Main-components/OptionsBar.vue';
 import Body from './Main-components/Body.vue';
-import SidePanel from './Main-components/SidePanel.vue';
+import SidePanel from './SidePanel-components/SidePanel.vue';
 
 import { startOfToday, startOfWeek, endOfWeek, add } from 'date-fns';
 import { ref } from 'vue';

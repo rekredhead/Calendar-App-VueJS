@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { format } from 'date-fns';
+//import { format } from 'date-fns';
 import SidePanelHeader from './SidePanelHeader.vue';
+import SidePanelForm from './SidePanelForm.vue';
 
 const props = defineProps({
    isSidePanelOpen: Boolean,
@@ -14,9 +15,9 @@ const props = defineProps({
 
 <template>
    <!--{{ format(props.selectedDate!, 'EEEE, dd MMMM HH:mm') }}-->
-   <aside class="flex flex-col fixed bg-white top-0 bottom-0 right-0 w-1/2 transform transition-transform duration-300"
-      :class="{ 'translate-x-0': isSidePanelOpen, 'translate-x-full': !isSidePanelOpen }">
+   <aside class="flex flex-col fixed bg-white top-0 bottom-0 right-0 border w-1/2 transform transition-transform duration-300"
+      :class="{ 'translate-x-0': props.isSidePanelOpen, 'translate-x-full': !props.isSidePanelOpen }">
       <SidePanelHeader/>
-      <div><!-- Form --></div>
+      <SidePanelForm/>
    </aside>
 </template>
