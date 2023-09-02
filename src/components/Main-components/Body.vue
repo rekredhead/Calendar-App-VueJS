@@ -1,12 +1,41 @@
 <script setup lang="ts">
-import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval } from 'date-fns';
-import { computed } from 'vue';
+import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval, differenceInMinutes } from 'date-fns';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
    selectedWeekStart: Date,
    selectedWeekEnd: Date,
    openSidePanel: Function
 });
+
+const tasks = ref([
+   {
+      date: set(new Date(), { date: 1 }),
+      events: [
+         {
+            task: 'Task1',
+            startTime: set(new Date(), { hours: 9, minutes: 30 }),
+            endTime: set(new Date(), { hours: 10, minutes: 0 }),
+            timeStamp: new Date()
+         },
+         {
+            task: 'Task2',
+            startTime: set(new Date(), { hours: 16, minutes: 15 }),
+            endTime: set(new Date(), { hours: 20, minutes: 45 }),
+            timeStamp: new Date()
+         }
+      ]
+   }
+]);
+const convertTimeToTopEM = (time: Date) => `${(time.getHours() * 4 + ((time.getMinutes() * 4 ) / 60))}em`;
+const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {
+   const timeDifferenceInMinutes = differenceInMinutes(endingTime, startingTime);
+
+   const hoursDifference = Math.round(timeDifferenceInMinutes / 60);
+   const minutesDifference = (timeDifferenceInMinutes - (hoursDifference * 60));
+
+   return `${hoursDifference * 4 + ((minutesDifference * 4) / 60)}em`;
+};
 
 const currentDate = startOfToday();
 const daysOfWeek = computed(() => eachDayOfInterval({
@@ -56,7 +85,17 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
             <div v-for="hour in hoursOfDay" class="h-16 text-slate-500 text-center">{{ format(hour, 'HH:mm') }}</div>
          </div>
          <div class="flex w-full h-full mt-3">
-            <div v-for="day in daysOfWeek" class="w-full">
+            <div v-for="day in daysOfWeek" class="relative w-full">
+               <div v-for="task in tasks">
+                  <div v-if="isSameDay(task.date, day)" v-for="event in task.events">
+                     <div
+                        class="absolute border border-blue-600 w-5/6"
+                        :style="{ top: convertTimeToTopEM(event.startTime), height: convertTimeToHeightEM(event.startTime, event.endTime) }"
+                     >
+                        hello
+                     </div>
+                  </div>
+               </div>
                <div v-for="hour in hoursOfDay" @click="handleDateTimeClick($event, hour, day)"
                   class="h-16 border-l border-t border-slate-400 last:border-b"></div>
             </div>
@@ -64,23 +103,3 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
       </div>
    </main>
 </template>
-
-<!--
-[{
-   date: 23-Oct-2019,
-   events: [
-      {
-         task: 'Do the laundary',
-         startTime: 09:00
-         endTime: 10:00
-         timeStamp: dd-mm-yyy 05:30:25:89
-      },
-      {
-         task: 'Workout',
-         startTime: 16:00
-         endTime: 17:00
-         timeStamp: dd-mm-yyy 05:30:26:14
-      }
-   ]
-}]
--->

@@ -27,11 +27,11 @@ const isObjectEmpty = (obj: Object) => Object.keys(obj).length === 0;
 
 const submitForm = () => {
    if (isObjectEmpty(service.value)) {
-      console.log('Please enter service');
+      alert('Please enter the service');
       return;
    }
    if (isObjectEmpty(patient.value)) {
-      console.log('Please enter patient info');
+      alert('Please enter the patient info');
       return;
    }
 
