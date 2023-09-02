@@ -105,7 +105,6 @@ const openSidePanel = (dateTime: Date) => {
 };
 const closeSidePanel = () => {
    isSidePanelOpen.value = false;
-   // Modify this to add appointments in the calendar
 }
 
 /*
