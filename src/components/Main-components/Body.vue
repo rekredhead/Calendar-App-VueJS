@@ -1,33 +1,25 @@
 <script setup lang="ts">
 import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval } from 'date-fns';
-import { computed, ref } from 'vue';
+import { PropType, computed } from 'vue';
 import WeeklyTask from './WeeklyTask.vue';
 
+interface Event {
+   patientName: string;
+   serviceName: string;
+   startTime: Date;
+   endTime: Date;
+   timeStamp: Date
+}
+interface Appointment {
+   date: Date;
+   events: Event[];
+}
 const props = defineProps({
+   appointments: Array as PropType<Appointment[]>,
    selectedWeekStart: Date,
    selectedWeekEnd: Date,
    openSidePanel: Function
 });
-
-const tasks = ref([
-   {
-      date: set(new Date(), { date: 1 }),
-      events: [
-         {
-            task: 'Task1',
-            startTime: set(new Date(), { hours: 7, minutes: 0 }),
-            endTime: set(new Date(), { hours: 10, minutes: 0 }),
-            timeStamp: new Date()
-         },
-         {
-            task: 'Task2',
-            startTime: set(new Date(), { hours: 16, minutes: 15 }),
-            endTime: set(new Date(), { hours: 20, minutes: 45 }),
-            timeStamp: new Date()
-         }
-      ]
-   }
-]);
 
 const currentDate = startOfToday();
 const daysOfWeek = computed(() => eachDayOfInterval({
@@ -78,7 +70,7 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
          </div>
          <div class="flex w-full h-full mt-3">
             <div v-for="day in daysOfWeek" class="relative w-full">
-               <div v-for="task in tasks">
+               <div v-for="task in props.appointments">
                   <div v-if="isSameDay(task.date, day)" v-for="event in task.events">
                      <WeeklyTask :event="event" />
                   </div>

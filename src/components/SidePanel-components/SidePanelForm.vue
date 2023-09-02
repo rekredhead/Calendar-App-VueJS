@@ -4,6 +4,7 @@
 
 const props = defineProps({
    selectedDate: Date,
+   addAppointment: Function,
    closeSidePanel: Function
 });
 
@@ -35,7 +36,7 @@ const submitForm = () => {
       return;
    }
 
-   console.log({
+   props.addAppointment!({
       service: service.value,
       patient: patient.value,
       startingDateTime: startingDateTime.value,

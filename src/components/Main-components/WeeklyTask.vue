@@ -19,11 +19,15 @@ const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {
 
 <template>
    <div
-      class="flex flex-col justify-between p-3 absolute left-2 shadow-md shadow-slate-300 rounded-md bg-white border-t-4 border-blue-600 w-5/6"
+      :key="event.timeStamp"
+      class="flex flex-col absolute justify-between font-semibold p-2 left-2 shadow-md shadow-slate-300 rounded-md bg-white border-t-4 border-blue-600 w-5/6"
       :style="{ top: convertTimeToTopEM(event.startTime), height: convertTimeToHeightEM(event.startTime, event.endTime) }"
    >
-      <div class="font-semibold">{{ event.task }}</div>
-      <div class="font-semibold text-sm text-slate-500">
+      <div>
+         <h1 class="text-sm">{{ event.patientName }}</h1>
+         <h2 class="text-xs text-slate-500">{{ event.serviceName }}</h2>
+      </div>
+      <div class="text-xs text-slate-500">
          {{ format(event.startTime, 'HH:mm') }} - {{ format(event.endTime,'HH:mm') }}</div>
    </div>
 </template>
