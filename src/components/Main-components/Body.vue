@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval, differenceInMinutes } from 'date-fns';
+import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval } from 'date-fns';
 import { computed, ref } from 'vue';
+import WeeklyTask from './WeeklyTask.vue';
 
 const props = defineProps({
    selectedWeekStart: Date,
@@ -14,7 +15,7 @@ const tasks = ref([
       events: [
          {
             task: 'Task1',
-            startTime: set(new Date(), { hours: 9, minutes: 30 }),
+            startTime: set(new Date(), { hours: 7, minutes: 0 }),
             endTime: set(new Date(), { hours: 10, minutes: 0 }),
             timeStamp: new Date()
          },
@@ -27,15 +28,6 @@ const tasks = ref([
       ]
    }
 ]);
-const convertTimeToTopEM = (time: Date) => `${(time.getHours() * 4 + ((time.getMinutes() * 4 ) / 60))}em`;
-const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {
-   const timeDifferenceInMinutes = differenceInMinutes(endingTime, startingTime);
-
-   const hoursDifference = Math.round(timeDifferenceInMinutes / 60);
-   const minutesDifference = (timeDifferenceInMinutes - (hoursDifference * 60));
-
-   return `${hoursDifference * 4 + ((minutesDifference * 4) / 60)}em`;
-};
 
 const currentDate = startOfToday();
 const daysOfWeek = computed(() => eachDayOfInterval({
@@ -88,12 +80,7 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
             <div v-for="day in daysOfWeek" class="relative w-full">
                <div v-for="task in tasks">
                   <div v-if="isSameDay(task.date, day)" v-for="event in task.events">
-                     <div
-                        class="absolute border border-blue-600 w-5/6"
-                        :style="{ top: convertTimeToTopEM(event.startTime), height: convertTimeToHeightEM(event.startTime, event.endTime) }"
-                     >
-                        hello
-                     </div>
+                     <WeeklyTask :event="event" />
                   </div>
                </div>
                <div v-for="hour in hoursOfDay" @click="handleDateTimeClick($event, hour, day)"
