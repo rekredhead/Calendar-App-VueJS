@@ -75,8 +75,8 @@ const addAppointment = (formData: FormData) => {
          date: startingDateTime,
          events: [
             {
-               patientName: patient.name,
-               serviceName: service.nameOfService,
+               patient: patient,
+               service: service,
                startTime: startingDateTime,
                endTime: endingDateTime,
                timeStamp: startOfToday()
@@ -88,8 +88,8 @@ const addAppointment = (formData: FormData) => {
    } else {
       // Push formData to the events array of the appointment that has the same date
       const newEvent = {
-         patientName: patient.name,
-         serviceName: service.nameOfService,
+         patient: patient,
+         service: service,
          startTime: startingDateTime,
          endTime: endingDateTime,
          timeStamp: startOfToday()
@@ -139,6 +139,7 @@ const closeSidePanel = () => {
       <Header></Header>
       <OptionsBar :selectedWeekStart="selectedWeekStart" :selectedWeekEnd="selectedWeekEnd"
          :getPreviousDate="getPreviousDate" :getNextDate="getNextDate"></OptionsBar>
+
       <Body :appointments="appointments" :selectedWeekStart="selectedWeekStart" :selectedWeekEnd="selectedWeekEnd"
          :openSidePanel="openSidePanel"></Body>
       <div v-if="isSidePanelOpen" class="absolute inset-0 bg-black opacity-40"></div>
