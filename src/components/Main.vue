@@ -109,14 +109,35 @@ const editAppointment = (formData: FormData) => {
 
    const indexOfDate = appointments.value.findIndex((appointment) => isSameDay(appointment.date, initialDate));
    const indexOfEvent = appointments.value[indexOfDate].events.findIndex((event) => event.id === id);
-   
-   appointments.value[indexOfDate].events[indexOfEvent] = {
-      id,
-      service,
-      patient,
-      startTime: startingDateTime,
-      endTime: endingDateTime,
-      timeStamp: startOfToday()
+
+   if (isSameDay(initialDate, startingDateTime)) {
+      const editedEvent = {
+         id,
+         service,
+         patient,
+         startTime: startingDateTime,
+         endTime: endingDateTime,
+         timeStamp: startOfToday()
+      };
+
+      appointments.value[indexOfDate].events[indexOfEvent] = editedEvent;
+
+   } else {
+      appointments.value[indexOfDate].events.splice(indexOfEvent, 1);
+
+      const editedAppointment = {
+         date: startingDateTime,
+         events: [{
+            id,
+            patient,
+            service,
+            startTime: startingDateTime,
+            endTime: endingDateTime,
+            timeStamp: startOfToday()
+         }]
+      };
+
+      appointments.value.push(editedAppointment);
    }
 }
 
@@ -136,7 +157,23 @@ const getNextDate = () => {
 }
 
 const isSidePanelOpen = ref(false);
-const sidePanelFormData = ref({});
+const sidePanelFormData = ref<FormData>({
+   id: '',
+   initialDate: new Date(),
+   service: {
+      nameOfService: '',
+      price: 0
+   },
+   patient: {
+      profilePicture: '',
+      name: '',
+      emailAddress: '',
+      phone: '',
+      address: ''
+   },
+   startingDateTime: new Date(),
+   endingDateTime: new Date()
+});
 
 const openSidePanel = (newFormData: FormData) => {
    isSidePanelOpen.value = true;
