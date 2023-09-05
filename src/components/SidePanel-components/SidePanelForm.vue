@@ -1,28 +1,42 @@
 <script setup lang="ts">
-// This form uses states (service, patient, dateTime) instead of input fields to collect data
-// Each form item was difficult to reuse, hence they have their own component
-
-const props = defineProps({
-   selectedDate: Date,
-   addAppointment: Function,
-   closeSidePanel: Function
-});
-
-import { ref } from 'vue';
-import { addHours } from 'date-fns';
+import { PropType, ref } from 'vue';
 import ServiceSelector from './ServiceSelector.vue';
 import PatientSelector from './PatientSelector.vue';
 import DateTimeSelector from './DateTimeSelector.vue';
 
-const service = ref({});
-const patient = ref({});
-const startingDateTime = ref(props.selectedDate);
-const endingDateTime = ref(addHours(props.selectedDate!, 1));
+interface Service {
+   nameOfService: string;
+   price: number;
+}
+interface Patient {
+   profilePicture: string;
+   name: string;
+   emailAddress: string;
+   phone: string;
+   address: string;
+}
+interface FormData {
+   service: Service;
+   patient: Patient;
+   startingDateTime: Date;
+   endingDateTime: Date;
+}
+const props = defineProps({
+   sidePanelFormData: Object as PropType<FormData>,
+   addAppointment: Function,
+   closeSidePanel: Function
+});
+const sidePanelFormData = props.sidePanelFormData!;
 
-const setService = (selectedService: Object) => service.value = selectedService;
-const setPatient = (selectedPatient: Object) => patient.value = selectedPatient;
+const service = ref(sidePanelFormData.service);
+const patient = ref(sidePanelFormData.patient);
+const startingDateTime = ref(sidePanelFormData.startingDateTime);
+const endingDateTime = ref(sidePanelFormData.endingDateTime);
+
+const setService = (selectedService: Service) => service.value = selectedService;
+const setPatient = (selectedPatient: Patient) => patient.value = selectedPatient;
 const setStartingDateTime = (selectedDateTime: Date) => startingDateTime.value = selectedDateTime;
-const setEndingDateTime = (selectedDateTime: Date) => endingDateTime.value = selectedDateTime
+const setEndingDateTime = (selectedDateTime: Date) => endingDateTime.value = selectedDateTime;
 
 const isObjectEmpty = (obj: Object) => Object.keys(obj).length === 0;
 
@@ -59,7 +73,7 @@ const submitForm = () => {
             :setEndingDateTime="setEndingDateTime"
          />
       </div>
-      <div class=" flex justify-end gap-4 h-12 w-full">
+      <div class="flex justify-end gap-4 h-12 w-full">
          <button @click="props.closeSidePanel!()" class="bg-slate-100 text-slate-500 font-bold rounded-md w-1/4 hover:bg-slate-200">Cancel</button>
          <button @click="submitForm" class="bg-slate-400 text-white font-bold rounded-md w-1/4 hover:bg-slate-500">Save</button>
       </div>

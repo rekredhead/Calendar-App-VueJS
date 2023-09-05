@@ -64,7 +64,6 @@ const appointments = ref([
       ]
    }
 ]);
-
 const addAppointment = (formData: FormData) => {
    const { service, patient, startingDateTime, endingDateTime } = formData;
    const indexOfSameDate = appointments.value.findIndex((appointment) => isSameDay(appointment.date, startingDateTime));
@@ -73,15 +72,13 @@ const addAppointment = (formData: FormData) => {
       // Push formData into the appointments array
       const newAppointment = {
          date: startingDateTime,
-         events: [
-            {
-               patient: patient,
-               service: service,
-               startTime: startingDateTime,
-               endTime: endingDateTime,
-               timeStamp: startOfToday()
-            }
-         ]
+         events: [{
+            patient: patient,
+            service: service,
+            startTime: startingDateTime,
+            endTime: endingDateTime,
+            timeStamp: startOfToday()
+         }]
       }
 
       appointments.value.push(newAppointment);
@@ -102,7 +99,6 @@ const addAppointment = (formData: FormData) => {
 const currentDate = startOfToday();
 const currentWeekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
 const currentWeekEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
-
 const selectedWeekStart = ref(currentWeekStart);
 const selectedWeekEnd = ref(currentWeekEnd);
 
@@ -116,18 +112,11 @@ const getNextDate = () => {
 }
 
 const isSidePanelOpen = ref(false);
-//const sidePanelFormData = ref({ service: {}, patient: {}, time: currentDate });
-const selectedDate = ref(currentDate);
+const sidePanelFormData = ref({});
 
-const openSidePanel = (dateTime: Date) => {
-   /*(newFormData: any) => {
-   console.log(newFormData.service);
-   console.log(newFormData.patient);
-   console.log(newFormData.time);
-   return;
-   */
+const openSidePanel = (newFormData: FormData) => {
    isSidePanelOpen.value = true;
-   selectedDate.value = dateTime;
+   sidePanelFormData.value = newFormData;
 };
 const closeSidePanel = () => {
    isSidePanelOpen.value = false;
@@ -144,6 +133,6 @@ const closeSidePanel = () => {
          :openSidePanel="openSidePanel"></Body>
       <div v-if="isSidePanelOpen" class="absolute inset-0 bg-black opacity-40"></div>
       <SidePanel :isSidePanelOpen="isSidePanelOpen" :addAppointment="addAppointment" :closeSidePanel="closeSidePanel"
-         :selectedDate="selectedDate" />
+         :sidePanelFormData="sidePanelFormData" />
    </div>
 </template>

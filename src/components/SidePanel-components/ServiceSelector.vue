@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, PropType } from 'vue';
 
+interface Service {
+   nameOfService: string;
+   price: number;
+}
 const props = defineProps({
-   service: Object,
+   service: Object as PropType<Service>,
    setService: Function
 });
 
@@ -86,7 +90,7 @@ const selectService = (service: selectServiceProps) => {
             <!-- Render the choice selected if their choice was selected -->
             <div class="flex justify-between items-center" v-show="isServiceSelected()">
                <div>
-                  <h1 class="text-xl">{{ service?.nameOfService }}</h1>
+                  <h1 class="text-xl">{{ props.service!.nameOfService }}</h1>
                   <h2 class="text-slate-400 text-sm">Subtext here</h2>
                </div>
                <button class="bg-green-500 text-white font-semibold px-5 h-10 rounded-md hover:bg-green-600 active:opacity-70">Meeting Room</button>

@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, PropType } from 'vue';
 
+interface Patient {
+   profilePicture: string;
+   name: string;
+   emailAddress: string;
+   phone: string;
+   address: string;
+}
 const props = defineProps({
-   patient: Object,
+   patient: Object as PropType<Patient>,
    setPatient: Function
 });
 
