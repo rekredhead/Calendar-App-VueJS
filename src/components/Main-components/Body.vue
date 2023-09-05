@@ -15,6 +15,7 @@ interface Patient {
    address: string;
 }
 interface Event {
+   id: string;
    patient: Patient;
    service: Service;
    startTime: Date;

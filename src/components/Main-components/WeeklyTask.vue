@@ -14,6 +14,7 @@ interface Patient {
    address: string;
 }
 interface Event {
+   id: string;
    patient: Patient;
    service: Service;
    startTime: Date;
@@ -24,7 +25,6 @@ const props = defineProps({
    event: Object as PropType<Event>,
    openSidePanel: Function
 });
-const event = props.event!;
 
 const convertTimeToTopEM = (time: Date) => `${(time.getHours() * 4 + ((time.getMinutes() * 4) / 60))}em`;
 const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {
@@ -38,26 +38,27 @@ const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {
 
 const handleClick = () => {
    props.openSidePanel!({
-      service: event.service,
-      patient: event.patient,
-      startingDateTime: event.startTime,
-      endingDateTime: event.endTime,
+      id: props.event!.id,
+      service: props.event!.service,
+      patient: props.event!.patient,
+      startingDateTime: props.event!.startTime,
+      endingDateTime: props.event!.endTime,
    });
 }
 </script>
 
 <template>
    <div
-      :key="(event.timeStamp).toDateString"
+      :key="props.event!.id"
       @click="handleClick"
       class="flex flex-col absolute cursor-pointer justify-between font-semibold p-2 left-2 shadow-md shadow-slate-300 rounded-md bg-white border-t-4 border-blue-600 w-5/6"
-      :style="{ top: convertTimeToTopEM(event.startTime), height: convertTimeToHeightEM(event.startTime, event.endTime) }"
+      :style="{ top: convertTimeToTopEM(props.event!.startTime), height: convertTimeToHeightEM(props.event!.startTime, props.event!.endTime) }"
    >
       <div>
-         <h1 class="text-sm">{{ event.patient.name }}</h1>
-         <h2 class="text-xs text-slate-500">{{ event.service.nameOfService }}</h2>
+         <h1 class="text-sm">{{ props.event!.patient.name }}</h1>
+         <h2 class="text-xs text-slate-500">{{ props.event!.service.nameOfService }}</h2>
       </div>
       <div class="text-xs text-slate-500">
-         {{ format(event.startTime, 'HH:mm') }} - {{ format(event.endTime,'HH:mm') }}</div>
+         {{ format(props.event!.startTime, 'HH:mm') }} - {{ format(props.event!.endTime,'HH:mm') }}</div>
    </div>
 </template>

@@ -10,9 +10,9 @@ const props = defineProps({
 });
 
 const isEditingOn = ref(false);
-const selectedDate = ref('');
-const selectedStartingTime = ref('');
-const selectedEndingTime = ref('');
+const selectedDate = ref(format(props.startingDateTime!, 'yyyy-MM-dd'));
+const selectedStartingTime = ref(format(props.startingDateTime!, 'HH:mm'));
+const selectedEndingTime = ref(format(props.endingDateTime!, 'HH:mm'));
 
 const roundTimeToNearest15Minutes = (e: Event) => {
    const eventTarget = e.target as HTMLInputElement;

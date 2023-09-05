@@ -16,6 +16,8 @@ interface Patient {
    address: string;
 }
 interface FormData {
+   id: string;
+   initialDate: Date;
    service: Service;
    patient: Patient;
    startingDateTime: Date;
@@ -24,6 +26,7 @@ interface FormData {
 const props = defineProps({
    sidePanelFormData: Object as PropType<FormData>,
    addAppointment: Function,
+   editAppointment: Function,
    closeSidePanel: Function
 });
 const sidePanelFormData = props.sidePanelFormData!;
@@ -50,12 +53,25 @@ const submitForm = () => {
       return;
    }
 
-   props.addAppointment!({
-      service: service.value,
-      patient: patient.value,
-      startingDateTime: startingDateTime.value,
-      endingDateTime: endingDateTime.value
-   });
+   const isEdited = !isObjectEmpty(sidePanelFormData.service);
+
+   if (isEdited) {
+      props.editAppointment!({
+         id: sidePanelFormData.id,
+         initialDate: sidePanelFormData.startingDateTime,
+         service: service.value,
+         patient: patient.value,
+         startingDateTime: startingDateTime.value,
+         endingDateTime: endingDateTime.value
+      });
+   } else {
+      props.addAppointment!({
+         service: service.value,
+         patient: patient.value,
+         startingDateTime: startingDateTime.value,
+         endingDateTime: endingDateTime.value
+      });
+   }
 
    props.closeSidePanel!();
 }
@@ -66,16 +82,14 @@ const submitForm = () => {
       <div class=" w-full">
          <ServiceSelector :service="service" :setService="setService" />
          <PatientSelector :patient="patient" :setPatient="setPatient" />
-         <DateTimeSelector
-            :startingDateTime="startingDateTime"
-            :endingDateTime="endingDateTime"
-            :setStartingDateTime="setStartingDateTime"
-            :setEndingDateTime="setEndingDateTime"
-         />
+         <DateTimeSelector :startingDateTime="startingDateTime" :endingDateTime="endingDateTime"
+            :setStartingDateTime="setStartingDateTime" :setEndingDateTime="setEndingDateTime" />
       </div>
       <div class="flex justify-end gap-4 h-12 w-full">
-         <button @click="props.closeSidePanel!()" class="bg-slate-100 text-slate-500 font-bold rounded-md w-1/4 hover:bg-slate-200">Cancel</button>
-         <button @click="submitForm" class="bg-slate-400 text-white font-bold rounded-md w-1/4 hover:bg-slate-500">Save</button>
+         <button @click="props.closeSidePanel!()"
+            class="bg-slate-100 text-slate-500 font-bold rounded-md w-1/4 hover:bg-slate-200">Cancel</button>
+         <button @click="submitForm"
+            class="bg-slate-400 text-white font-bold rounded-md w-1/4 hover:bg-slate-500">Save</button>
       </div>
    </form>
 </template>

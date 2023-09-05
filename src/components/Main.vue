@@ -6,6 +6,9 @@ import SidePanel from './SidePanel-components/SidePanel.vue';
 
 import { startOfToday, isSameDay, startOfWeek, endOfWeek, add } from 'date-fns';
 import { ref } from 'vue';
+import { v4 as uuidv4 } from 'uuid';
+
+const generateRandomID = () => uuidv4().slice(0, 8);
 
 interface Service {
    nameOfService: string;
@@ -19,6 +22,8 @@ interface Patient {
    address: string;
 }
 interface FormData {
+   id: string;
+   initialDate: Date;
    service: Service;
    patient: Patient;
    startingDateTime: Date;
@@ -30,6 +35,7 @@ const appointments = ref([
       date: new Date('2023-09-04'),
       events: [
          {
+            id: generateRandomID(),
             patient: {
                profilePicture: 'vue.svg',
                name: 'Eleanor Pena',
@@ -46,6 +52,7 @@ const appointments = ref([
             timeStamp: new Date('2023-09-04 4:04:04')
          },
          {
+            id: generateRandomID(),
             patient: {
                profilePicture: 'vue.svg',
                name: "Oliver Bennett",
@@ -73,6 +80,7 @@ const addAppointment = (formData: FormData) => {
       const newAppointment = {
          date: startingDateTime,
          events: [{
+            id: generateRandomID(),
             patient: patient,
             service: service,
             startTime: startingDateTime,
@@ -85,6 +93,7 @@ const addAppointment = (formData: FormData) => {
    } else {
       // Push formData to the events array of the appointment that has the same date
       const newEvent = {
+         id: generateRandomID(),
          patient: patient,
          service: service,
          startTime: startingDateTime,
@@ -93,6 +102,21 @@ const addAppointment = (formData: FormData) => {
       }
 
       appointments.value[indexOfSameDate].events.push(newEvent);
+   }
+}
+const editAppointment = (formData: FormData) => {
+   const { id, initialDate, service, patient, startingDateTime, endingDateTime } = formData;
+
+   const indexOfDate = appointments.value.findIndex((appointment) => isSameDay(appointment.date, initialDate));
+   const indexOfEvent = appointments.value[indexOfDate].events.findIndex((event) => event.id === id);
+   
+   appointments.value[indexOfDate].events[indexOfEvent] = {
+      id,
+      service,
+      patient,
+      startTime: startingDateTime,
+      endTime: endingDateTime,
+      timeStamp: startOfToday()
    }
 }
 
@@ -132,7 +156,7 @@ const closeSidePanel = () => {
       <Body :appointments="appointments" :selectedWeekStart="selectedWeekStart" :selectedWeekEnd="selectedWeekEnd"
          :openSidePanel="openSidePanel"></Body>
       <div v-if="isSidePanelOpen" class="absolute inset-0 bg-black opacity-40"></div>
-      <SidePanel :isSidePanelOpen="isSidePanelOpen" :addAppointment="addAppointment" :closeSidePanel="closeSidePanel"
-         :sidePanelFormData="sidePanelFormData" />
+      <SidePanel :isSidePanelOpen="isSidePanelOpen" :addAppointment="addAppointment" :editAppointment="editAppointment"
+         :closeSidePanel="closeSidePanel" :sidePanelFormData="sidePanelFormData" />
    </div>
 </template>
