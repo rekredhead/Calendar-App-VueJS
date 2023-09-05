@@ -3,9 +3,20 @@ import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, each
 import { PropType, computed } from 'vue';
 import WeeklyTask from './WeeklyTask.vue';
 
+interface Service {
+   nameOfService: string;
+   price: number;
+}
+interface Patient {
+   profilePicture: string;
+   name: string;
+   emailAddress: string;
+   phone: string;
+   address: string;
+}
 interface Event {
-   patientName: string;
-   serviceName: string;
+   patient: Patient;
+   service: Service;
    startTime: Date;
    endTime: Date;
    timeStamp: Date
@@ -41,7 +52,7 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
    const roundedMinutes = Math.round(decimalMinutes / 15) * 15;
 
    const time = set(selectedDay, { hours: selectedHour, minutes: roundedMinutes });
-   props.openSidePanel!(time);
+   props.openSidePanel!(time);//{ service: {}, patient: {}, time: time });
 }
 </script>
 
@@ -70,8 +81,8 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
          </div>
          <div class="flex w-full h-full mt-3">
             <div v-for="day in daysOfWeek" class="relative w-full">
-               <div v-for="task in props.appointments">
-                  <div v-if="isSameDay(task.date, day)" v-for="event in task.events">
+               <div v-for="appointment in props.appointments">
+                  <div v-if="isSameDay(appointment.date, day)" v-for="event in appointment.events">
                      <WeeklyTask :event="event" />
                   </div>
                </div>

@@ -27,21 +27,39 @@ interface FormData {
 
 const appointments = ref([
    {
-      date: new Date('2023-09-02'),
+      date: new Date('2023-09-04'),
       events: [
          {
-            patientName: 'Patient1',
-            serviceName: 'Service1',
-            startTime: new Date('2023-09-02 7:15:00'),
-            endTime: new Date('2023-09-02 10:00:00'),
-            timeStamp: new Date('2023-09-02 4:04:04')
+            patient: {
+               profilePicture: 'vue.svg',
+               name: 'Eleanor Pena',
+               emailAddress: 'eleanor@pena.co',
+               phone: '(270) 555-0117',
+               address: ' 2715 Ash Dr. San Jose, South Dakota 837475'
+            },
+            service: {
+               nameOfService: 'service1',
+               price: 0
+            },
+            startTime: new Date('2023-09-04 1:15:00'),
+            endTime: new Date('2023-09-04 3:00:00'),
+            timeStamp: new Date('2023-09-04 4:04:04')
          },
          {
-            patientName: 'Patient2',
-            serviceName: 'Service2',
-            startTime: new Date('2023-09-02 16:15:00'),
-            endTime: new Date('2023-09-02 20:45:00'),
-            timeStamp: new Date('2023-09-02 7:07:07')
+            patient: {
+               profilePicture: 'vue.svg',
+               name: "Oliver Bennett",
+               emailAddress: "oliver@bennett.co",
+               phone: "(415) 555-1234",
+               address: "123 Elm Street, Springfield, IL 62701"
+            },
+            service: {
+               nameOfService: 'service2',
+               price: 10
+            },
+            startTime: new Date('2023-09-04 5:15:00'),
+            endTime: new Date('2023-09-04 9:45:00'),
+            timeStamp: new Date('2023-09-04 7:07:07')
          }
       ]
    }
@@ -98,38 +116,32 @@ const getNextDate = () => {
 }
 
 const isSidePanelOpen = ref(false);
+//const sidePanelFormData = ref({ service: {}, patient: {}, time: currentDate });
 const selectedDate = ref(currentDate);
+
 const openSidePanel = (dateTime: Date) => {
+   /*(newFormData: any) => {
+   console.log(newFormData.service);
+   console.log(newFormData.patient);
+   console.log(newFormData.time);
+   return;
+   */
    isSidePanelOpen.value = true;
    selectedDate.value = dateTime;
 };
 const closeSidePanel = () => {
    isSidePanelOpen.value = false;
 }
-
-/*
-const selectedDate = ref(startOfToday());
-
-const getPreviousDate = () => {
-   const prevDate = add(selectedDate.value, { months: -1 });
-   selectedDate.value = prevDate;
-}
-const getNextDate = () => {
-   const nextDate = add(selectedDate.value, { months: 1 });
-   selectedDate.value = nextDate;
-}
-*/
 </script>
 
 <template>
    <div class="flex relative flex-col h-screen bg-blue-100 pb-5">
-      <div v-if="isSidePanelOpen" class="absolute inset-0 bg-black opacity-40"></div>
       <Header></Header>
       <OptionsBar :selectedWeekStart="selectedWeekStart" :selectedWeekEnd="selectedWeekEnd"
          :getPreviousDate="getPreviousDate" :getNextDate="getNextDate"></OptionsBar>
-
       <Body :appointments="appointments" :selectedWeekStart="selectedWeekStart" :selectedWeekEnd="selectedWeekEnd"
          :openSidePanel="openSidePanel"></Body>
+      <div v-if="isSidePanelOpen" class="absolute inset-0 bg-black opacity-40"></div>
       <SidePanel :isSidePanelOpen="isSidePanelOpen" :addAppointment="addAppointment" :closeSidePanel="closeSidePanel"
          :selectedDate="selectedDate" />
    </div>
