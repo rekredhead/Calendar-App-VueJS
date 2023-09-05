@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval } from 'date-fns';
+import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval, addHours } from 'date-fns';
 import { PropType, computed } from 'vue';
 import WeeklyTask from './WeeklyTask.vue';
 
@@ -52,7 +52,12 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
    const roundedMinutes = Math.round(decimalMinutes / 15) * 15;
 
    const time = set(selectedDay, { hours: selectedHour, minutes: roundedMinutes });
-   props.openSidePanel!(time);//{ service: {}, patient: {}, time: time });
+   props.openSidePanel!({
+      service: {},
+      patient: {},
+      startingDateTime: time,
+      endingDateTime: addHours(time, 1)
+   });
 }
 </script>
 
@@ -83,7 +88,7 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
             <div v-for="day in daysOfWeek" class="relative w-full">
                <div v-for="appointment in props.appointments">
                   <div v-if="isSameDay(appointment.date, day)" v-for="event in appointment.events">
-                     <WeeklyTask :event="event" />
+                     <WeeklyTask :event="event" :openSidePanel="openSidePanel" />
                   </div>
                </div>
                <div v-for="hour in hoursOfDay" @click="handleDateTimeClick($event, hour, day)"

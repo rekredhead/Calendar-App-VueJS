@@ -21,7 +21,8 @@ interface Event {
    timeStamp: Date
 }
 const props = defineProps({
-   event: Object as PropType<Event>
+   event: Object as PropType<Event>,
+   openSidePanel: Function
 });
 const event = props.event!;
 
@@ -34,12 +35,22 @@ const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {
 
    return `${hoursDifference * 4 + ((minutesDifference * 4) / 60)}em`;
 };
+
+const handleClick = () => {
+   props.openSidePanel!({
+      service: event.service,
+      patient: event.patient,
+      startingDateTime: event.startTime,
+      endingDateTime: event.endTime,
+   });
+}
 </script>
 
 <template>
    <div
       :key="(event.timeStamp).toDateString"
-      class="flex flex-col absolute justify-between font-semibold p-2 left-2 shadow-md shadow-slate-300 rounded-md bg-white border-t-4 border-blue-600 w-5/6"
+      @click="handleClick"
+      class="flex flex-col absolute cursor-pointer justify-between font-semibold p-2 left-2 shadow-md shadow-slate-300 rounded-md bg-white border-t-4 border-blue-600 w-5/6"
       :style="{ top: convertTimeToTopEM(event.startTime), height: convertTimeToHeightEM(event.startTime, event.endTime) }"
    >
       <div>
