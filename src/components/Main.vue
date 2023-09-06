@@ -71,6 +71,7 @@ const appointments = ref([
       ]
    }
 ]);
+
 const addAppointment = (formData: FormData) => {
    const { service, patient, startingDateTime, endingDateTime } = formData;
    const indexOfSameDate = appointments.value.findIndex((appointment) => isSameDay(appointment.date, startingDateTime));
@@ -186,6 +187,7 @@ const closeSidePanel = () => {
 
 <template>
    <div class="flex relative flex-col h-screen bg-blue-100 pb-5">
+      {{ appointments }}
       <Header></Header>
       <OptionsBar :selectedWeekStart="selectedWeekStart" :selectedWeekEnd="selectedWeekEnd"
          :getPreviousDate="getPreviousDate" :getNextDate="getNextDate"></OptionsBar>

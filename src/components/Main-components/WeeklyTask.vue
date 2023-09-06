@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { format, differenceInMinutes } from 'date-fns';
+import { format, differenceInMinutes, set } from 'date-fns';
 import { PropType, ref } from 'vue';
 
 interface Service {
@@ -29,6 +29,8 @@ const props = defineProps({
 const isResizing = ref(false);
 const initialHeight = ref(0);
 const startY = ref(0);
+const startTime = ref(props.event!.startTime);
+const endTime = ref(props.event!.endTime);
 
 const convertTimeToTopEM = (time: Date) => `${(time.getHours() * 4 + ((time.getMinutes() * 4) / 60))}em`;
 const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {
@@ -39,16 +41,27 @@ const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {
 
    return `${hoursDifference * 4 + ((minutesDifference * 4) / 60)}em`;
 };
+const convertHeightInEMToEndTime = (heightInEM: string) => {
+   const height = parseInt(heightInEM.slice(0, -2));
 
-const divHeight = ref(convertTimeToHeightEM(props.event!.startTime, props.event!.endTime));
+   const hoursDifference = Math.trunc(height / 4);
+   const minutesDifference = ( (height / 4) - hoursDifference ) * 60;
+   
+   const endTimeHours = hoursDifference + startTime.value.getHours();
+   const endTimeMinutes = minutesDifference + startTime.value.getMinutes();
+
+   return set(endTime.value, { hours: endTimeHours, minutes: endTimeMinutes });
+}
+
+const divHeight = ref(convertTimeToHeightEM(startTime.value, endTime.value));
 
 const handleClick = () => {
    props.openSidePanel!({
       id: props.event!.id,
       service: props.event!.service,
       patient: props.event!.patient,
-      startingDateTime: props.event!.startTime,
-      endingDateTime: props.event!.endTime,
+      startingDateTime: startTime.value,
+      endingDateTime: endTime.value,
    });
 }
 
@@ -74,10 +87,12 @@ const resize = (e: MouseEvent) => {
 const stopResize = () => {
    // Sometimes after resizing, when the cursor is over the main div and not over the resizingDiv,
    // it triggers the click event in the main div and opens the side panel accidentally
-    
    isResizing.value = false;
    window.removeEventListener('mousemove', resize);
    window.removeEventListener('mouseup', stopResize);
+
+   endTime.value = convertHeightInEMToEndTime(divHeight.value);
+   props.event!.endTime = endTime.value;
 }
 </script>
 
@@ -89,7 +104,7 @@ const stopResize = () => {
          <h2 class="text-xs text-slate-500">{{ props.event!.service.nameOfService }}</h2>
       </div>
       <div class="text-xs text-slate-500">
-         {{ format(props.event!.startTime, 'HH:mm') }} - {{ format(props.event!.endTime, 'HH:mm') }}
+         {{ format(startTime, 'HH:mm') }} - {{ format(endTime, 'HH:mm') }}
       </div>
       <div @click.stop @mousedown="startResize" class="cursorResizable" :style="{ userSelect: isResizing ? 'none' : 'auto' }"></div>
    </div>
