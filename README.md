@@ -1,7 +1,5 @@
 # Todos
 - More Priority
-2. Make the appointments extendable by height and changes the startTime and endTime of the appointment too (sends the data to Main comp.)
-3. Make the appointments draggable to different points in the calendar and changes the date, start and end times (sends the data to Main comp.)
 4. Make the page more responsive
 5. Update the documentation and add enough commenting
 6. Clean the code and components

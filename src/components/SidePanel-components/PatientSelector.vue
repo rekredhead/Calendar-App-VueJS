@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, PropType } from 'vue';
+import { Patient } from '../types';
 
-interface Patient {
-   profilePicture: string;
-   name: string;
-   emailAddress: string;
-   phone: string;
-   address: string;
-}
 const props = defineProps({
    patient: Object as PropType<Patient>,
    setPatient: Function
@@ -30,14 +24,7 @@ const filteredPatients = computed(() => {
    return availablePatients.filter((patient) => patient.name.toLowerCase().includes(searchText.value.toLowerCase()))
 });
 
-type selectPatientProps = {
-   profilePicture: string,
-   name: string,
-   emailAddress: string,
-   phone: string,
-   address: string
-}
-const selectPatients = (patient: selectPatientProps) => {
+const selectPatients = (patient: Patient) => {
    props.setPatient!(patient);
    searchText.value = '';
    isOpen.value = false;

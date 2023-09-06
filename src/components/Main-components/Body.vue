@@ -2,30 +2,8 @@
 import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval, addHours } from 'date-fns';
 import { PropType, computed } from 'vue';
 import WeeklyTask from './WeeklyTask.vue';
+import { Appointment} from '../types';
 
-interface Service {
-   nameOfService: string;
-   price: number;
-}
-interface Patient {
-   profilePicture: string;
-   name: string;
-   emailAddress: string;
-   phone: string;
-   address: string;
-}
-interface Event {
-   id: string;
-   patient: Patient;
-   service: Service;
-   startTime: Date;
-   endTime: Date;
-   timeStamp: Date
-}
-interface Appointment {
-   date: Date;
-   events: Event[];
-}
 const props = defineProps({
    appointments: Array as PropType<Appointment[]>,
    selectedWeekStart: Date,

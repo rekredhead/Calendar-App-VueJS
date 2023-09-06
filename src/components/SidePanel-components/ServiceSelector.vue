@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, PropType } from 'vue';
+import { Service } from '../types';
 
-interface Service {
-   nameOfService: string;
-   price: number;
-}
 const props = defineProps({
    service: Object as PropType<Service>,
    setService: Function
@@ -26,11 +23,7 @@ const filteredServices = computed(() => {
    return availableServices.filter((service) => service.nameOfService.toLowerCase().includes(searchText.value.toLowerCase()))
 });
 
-type selectServiceProps = {
-   nameOfService: string,
-   price: number
-}
-const selectService = (service: selectServiceProps) => {
+const selectService = (service: Service) => {
    props.setService!(service);
    isOpen.value = false;
 }

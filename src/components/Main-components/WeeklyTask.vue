@@ -1,26 +1,8 @@
 <script setup lang="ts">
 import { format, differenceInMinutes, set } from 'date-fns';
 import { PropType, ref } from 'vue';
+import { Event } from '../types';
 
-interface Service {
-   nameOfService: string;
-   price: number;
-}
-interface Patient {
-   profilePicture: string;
-   name: string;
-   emailAddress: string;
-   phone: string;
-   address: string;
-}
-interface Event {
-   id: string;
-   patient: Patient;
-   service: Service;
-   startTime: Date;
-   endTime: Date;
-   timeStamp: Date
-}
 const props = defineProps({
    event: Object as PropType<Event>,
    openSidePanel: Function

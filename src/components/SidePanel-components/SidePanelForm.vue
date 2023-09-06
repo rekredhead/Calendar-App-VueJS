@@ -3,26 +3,8 @@ import { PropType, ref } from 'vue';
 import ServiceSelector from './ServiceSelector.vue';
 import PatientSelector from './PatientSelector.vue';
 import DateTimeSelector from './DateTimeSelector.vue';
+import { Service, Patient, FormData } from '../types';
 
-interface Service {
-   nameOfService: string;
-   price: number;
-}
-interface Patient {
-   profilePicture: string;
-   name: string;
-   emailAddress: string;
-   phone: string;
-   address: string;
-}
-interface FormData {
-   id: string;
-   initialDate: Date;
-   service: Service;
-   patient: Patient;
-   startingDateTime: Date;
-   endingDateTime: Date;
-}
 const props = defineProps({
    sidePanelFormData: Object as PropType<FormData>,
    addAppointment: Function,

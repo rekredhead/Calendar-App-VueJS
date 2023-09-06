@@ -3,32 +3,13 @@ import Header from './Main-components/Header.vue';
 import OptionsBar from './Main-components/OptionsBar.vue';
 import Body from './Main-components/Body.vue';
 import SidePanel from './SidePanel-components/SidePanel.vue';
+import { FormData } from './types';
 
 import { startOfToday, isSameDay, startOfWeek, endOfWeek, add } from 'date-fns';
 import { ref } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 
 const generateRandomID = () => uuidv4().slice(0, 8);
-
-interface Service {
-   nameOfService: string;
-   price: number;
-}
-interface Patient {
-   profilePicture: string;
-   name: string;
-   emailAddress: string;
-   phone: string;
-   address: string;
-}
-interface FormData {
-   id: string;
-   initialDate: Date;
-   service: Service;
-   patient: Patient;
-   startingDateTime: Date;
-   endingDateTime: Date;
-}
 
 const appointments = ref([
    {
@@ -187,7 +168,6 @@ const closeSidePanel = () => {
 
 <template>
    <div class="flex relative flex-col h-screen bg-blue-100 pb-5">
-      {{ appointments }}
       <Header></Header>
       <OptionsBar :selectedWeekStart="selectedWeekStart" :selectedWeekEnd="selectedWeekEnd"
          :getPreviousDate="getPreviousDate" :getNextDate="getNextDate"></OptionsBar>

@@ -2,26 +2,8 @@
 import SidePanelHeader from './SidePanelHeader.vue';
 import SidePanelForm from './SidePanelForm.vue';
 import { PropType } from 'vue';
+import { FormData } from '../types';
 
-interface Service {
-   nameOfService: string;
-   price: number;
-}
-interface Patient {
-   profilePicture: string;
-   name: string;
-   emailAddress: string;
-   phone: string;
-   address: string;
-}
-interface FormData {
-   id: string;
-   initialDate: Date;
-   service: Service;
-   patient: Patient;
-   startingDateTime: Date;
-   endingDateTime: Date;
-}
 const props = defineProps({
    isSidePanelOpen: Boolean,
    addAppointment: Function,
