@@ -43,7 +43,6 @@ const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {
 const divHeight = ref(convertTimeToHeightEM(props.event!.startTime, props.event!.endTime));
 
 const handleClick = () => {
-   console.log('click');
    props.openSidePanel!({
       id: props.event!.id,
       service: props.event!.service,
@@ -70,11 +69,12 @@ const resize = (e: MouseEvent) => {
    const deltaY = e.clientY - startY.value;
    const newHeight = initialHeight.value + deltaY;
 
-   // Resize every 1em
-   divHeight.value = Math.round(newHeight / 16) + "em";
+   divHeight.value = Math.round(newHeight / 16) + "em"; // Resize every 1em
 }
 const stopResize = () => {
-   console.log('stop');
+   // Sometimes after resizing, when the cursor is over the main div and not over the resizingDiv,
+   // it triggers the click event in the main div and opens the side panel accidentally
+    
    isResizing.value = false;
    window.removeEventListener('mousemove', resize);
    window.removeEventListener('mouseup', stopResize);
@@ -84,12 +84,13 @@ const stopResize = () => {
 <template>
    <div :key="props.event!.id" @click="handleClick" class="weeklyTaskContainer"
       :style="{ top: convertTimeToTopEM(props.event!.startTime), height: divHeight }">
-      <div @mousedown="startResize" class="cursorResizable"></div>
       <div>
          <h1 class="text-sm">{{ props.event!.patient.name }}</h1>
          <h2 class="text-xs text-slate-500">{{ props.event!.service.nameOfService }}</h2>
       </div>
       <div class="text-xs text-slate-500">
-         {{ format(props.event!.startTime, 'HH:mm') }} - {{ format(props.event!.endTime, 'HH:mm') }}</div>
+         {{ format(props.event!.startTime, 'HH:mm') }} - {{ format(props.event!.endTime, 'HH:mm') }}
+      </div>
+      <div @click.stop @mousedown="startResize" class="cursorResizable" :style="{ userSelect: isResizing ? 'none' : 'auto' }"></div>
    </div>
 </template>
