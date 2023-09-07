@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval, addHours } from 'date-fns';
 import { PropType, computed } from 'vue';
-import WeeklyTask from './WeeklyTask.vue';
+import WeeklyTask from './WeeklyAndListTask.vue';
 import { Appointment } from '../types';
 
 const props = defineProps({

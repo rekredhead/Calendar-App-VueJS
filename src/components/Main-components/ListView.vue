@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { PropType } from 'vue';
 import { Appointment } from '../types';
-import { eachHourOfInterval, format, isSameDay, set, startOfToday } from 'date-fns';
+import { addHours, eachHourOfInterval, format, getHours, isSameDay, set, startOfToday } from 'date-fns';
+import ListTask from './WeeklyAndListTask.vue';
 
 const props = defineProps({
    appointments: Array as PropType<Appointment[]>,
@@ -15,8 +16,22 @@ const hoursOfDay = eachHourOfInterval({
    start: currentDate,
    end: set(currentDate, { hours: 23 })
 });
-const handleDateTimeClick = () => {
-   return;
+const handleDateTimeClick = (e: MouseEvent, hour: Date) => {
+   const selectedHour = getHours(hour);
+   const evenTarget = e.target as HTMLElement;
+
+   const yCoordinate = e.offsetY > 0 ? e.offsetY : 1;
+   const maxHeight = evenTarget.clientHeight;
+   const decimalMinutes = (yCoordinate / maxHeight) * 60;
+   const roundedMinutes = Math.round(decimalMinutes / 15) * 15;
+
+   const time = set(props.selectedDateStart!, { hours: selectedHour, minutes: roundedMinutes });
+   props.openSidePanel!({
+      service: {},
+      patient: {},
+      startingDateTime: time,
+      endingDateTime: addHours(time, 1)
+   });
 }
 </script>
 
@@ -45,8 +60,12 @@ const handleDateTimeClick = () => {
          </div>
          <div class="flex flex-col w-full h-full mt-3">
             <div class="relative w-full">
-               <!-- Appointment renders here -->
-               <div v-for="hour in hoursOfDay" @click="handleDateTimeClick()"
+               <div v-for="appointment in props.appointments!">
+                  <div v-if="isSameDay(appointment.date, props.selectedDateStart!)" v-for="event in appointment.events">
+                     <ListTask :event="event" :openSidePanel="openSidePanel" />
+                  </div>
+               </div>
+               <div v-for="hour in hoursOfDay" @click="handleDateTimeClick($event, hour)"
                   class="h-16 border-l border-t border-slate-400 last:border-b"></div>
             </div>
          </div>
