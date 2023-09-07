@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 const generateRandomID = () => uuidv4().slice(0, 8);
 const notifications: any[] = [0, 1, 2]; // Change the type based on the actual notifications data
 const modes = ['list', 'monthly', 'weekly'];
-const mode = ref(modes[1]);
+const mode = ref(modes[2]);
 
 const currentDate = startOfToday();
 const getCurrentWeekStart = () => startOfWeek(currentDate, { weekStartsOn: 1 });
@@ -21,8 +21,9 @@ const getCurrentWeekEnd = () => endOfWeek(currentDate, { weekStartsOn: 1 });
 const getCurrentMonthStart = () => startOfMonth(currentDate);
 const getCurrentMonthEnd = () => endOfMonth(currentDate);
 
-const selectedDateStart = ref(getCurrentMonthStart());
-const selectedDateEnd = ref(getCurrentMonthEnd());
+// Modify this when the ListView is added - the conditional statement is there to make it easier to change the mode's state
+const selectedDateStart = ref(mode.value === modes[1] ? getCurrentMonthStart() : getCurrentWeekStart());
+const selectedDateEnd = ref(mode.value === modes[1] ? getCurrentMonthEnd() : getCurrentWeekEnd());
 
 const setMode = (newMode: string) => {
    mode.value = newMode;

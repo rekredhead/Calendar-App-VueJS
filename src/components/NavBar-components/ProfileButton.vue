@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 
+defineProps<{
+   userProfilePicture: string,
+   userName: string,
+   userCareer: string
+}>();
+
 const isExpanded = ref(false);
 </script>
 
@@ -8,11 +14,11 @@ const isExpanded = ref(false);
    <div class="flex w-full border border-t-2 items-center justify-between p-2">
       <div class="flex w-4/5 gap-2 items-center">
          <!-- Replace profile picture src with intended image -->
-         <img class="flex border h-full aspect-square rounded-full" src="vue.svg" alt="Profile Picture" />
+         <img class="flex border h-full aspect-square rounded-full" :src="userProfilePicture" alt="Profile Picture" />
          
          <div class="overflow-hidden">
-            <h1 class="whitespace-nowrap text-base font-semibold">User Name</h1>
-            <h2 class="whitespace-nowrap text-sm text-slate-500">User Career</h2>
+            <h1 class="whitespace-nowrap text-base font-semibold">{{ userName }}</h1>
+            <h2 class="whitespace-nowrap text-sm text-slate-500">{{ userCareer }}</h2>
          </div>
       </div>
 

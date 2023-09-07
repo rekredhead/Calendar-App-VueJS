@@ -25,13 +25,13 @@ const handleScheduleSettingClick = () => {
 </script>
 
 <template>
-   <nav class="flex justify-between items-center border border-b-slate-300 px-10 py-4 h-[6%]">
+   <nav class="flex justify-between items-center border border-b-slate-300 px-10 py-4 h-14">
       <div class="flex gap-1 justify-between items-center w-60">
-         <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getPreviousDate()">&lt;</button>
+         <button class="bg-white px-2 py-1 text-slate-500 rounded-md hover:text-black active:opacity-60" @click="getPreviousDate()">&lt;</button>
          <span class="bg-white py-1 text-slate-500 rounded-md w-full text-center">
             {{ `${format(selectedDateStart, 'MMM dd')} - ${format(selectedDateEnd, 'MMM dd, yyyy')}` }}
          </span>
-         <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getNextDate()">&gt;</button>
+         <button class="bg-white px-2 py-1 text-slate-500 rounded-md hover:text-black active:opacity-60" @click="getNextDate()">&gt;</button>
       </div>
       <div class="flex gap-2">
          <button @click="handleRefresh" class="optionsBarButton">

@@ -13,6 +13,9 @@ const navButtonsInfo = ref([
    { id: 5, icon: 'tune', title: 'Settings' },
 ]);
 
+const userProfilePicture = ref('vue.svg');
+const userName = ref('User Name');
+const userCareer = ref('User Career');
 </script>
 
 <template>
@@ -26,7 +29,7 @@ const navButtonsInfo = ref([
       />
       <div class="flex absolute flex-col w-full bottom-0">
          <NavButton icon="info" title="Help" />
-         <ProfileButton/>
+         <ProfileButton :userProfilePicture="userProfilePicture" :userName="userName" :userCareer="userCareer"/>
       </div>
    </nav>
 </template>

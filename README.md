@@ -1,15 +1,8 @@
 # Todos
 - More Priority
-3. Change the initial mode state to weekly after finish
-4. Make the page more responsive
 5. Update the documentation and add enough commenting
-6. Clean the code and components
 7. Submit only the vue.js code (do not include git or node_modules)
-
-- Less Priority
-1. Make the components for the Monthly-view and List-view
-2. Make the calendar able to change modes (monthly, weekly and list)
-3. Make each mode able to change the dates (e.g. previousMonth, nextMonth)
+8. Make the components for the List-view
 
 # Tasks
 - Build app similar to Dribble Demo (https://dribbble.com/shots/15265805-Zendenta-Add-new-appointment)
@@ -17,7 +10,7 @@
 - Add the following features:
    - Date filtering [Done]
    - Appearing slide-over panel when date-time is clicked [Done]
-   - Clickable & Draggable events
+   - Clickable & Draggable events [Done]
 
 # Setup instructions
 - Run <code>npm install</code> in the CLI to install all the modules

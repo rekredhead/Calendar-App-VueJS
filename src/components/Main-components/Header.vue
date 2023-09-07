@@ -20,7 +20,7 @@ const handleNotificationClick = () => {
 </script>
 
 <template>
-   <header class="flex justify-between px-10 py-4 items-center border border-b-slate-300 h-[8%]">
+   <header class="flex justify-between px-10 py-4 items-center border-b border-slate-300 h-20">
       <div class="flex gap-10">
          <div class="flex justify-center items-center gap-3">
             <span class="material-symbols-outlined text-4xl text-blue-600 font-bold">calendar_month</span>
@@ -35,7 +35,7 @@ const handleNotificationClick = () => {
             >{{ toTitleCase(item) }}</button>
          </div>
       </div>
-      <div class="flex items-center w-1/5 justify-between h-11">
+      <div class="flex items-center justify-between w-auto h-11 gap-3">
          <!-- Change the input element to handle submission later -->
          <input
             type="search"

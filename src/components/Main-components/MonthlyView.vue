@@ -28,7 +28,7 @@ const handleDateTimeClick = (selectedDay: Date) => {
 </script>
 
 <template>
-   <main class="flex flex-col h-[86%] pl-3">
+   <main class="flex flex-col h-4/5 ml-3">
       <div class="grid grid-cols-7 h-full border-t border-slate-400 overflow-y-scroll">
          <div
             v-for="dayOfMonth in daysOfMonth"

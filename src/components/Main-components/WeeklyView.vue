@@ -41,8 +41,8 @@ const handleDateTimeClick = (e: MouseEvent, hour: Date, selectedDay: Date) => {
 </script>
 
 <template>
-   <main class="flex flex-col h-[86%] pl-3">
-      <div class="flex h-[12%]">
+   <main class="flex flex-col h-4/5 ml-3">
+      <div class="flex h-32">
          <!-- Labels for the days of the week -->
          <div class="flex justify-center items-center w-20">
             <span class="material-symbols-outlined text-slate-500">schedule</span>
