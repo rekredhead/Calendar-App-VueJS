@@ -12,7 +12,8 @@ defineProps<{
       <div class="flex items-center border-b h-1/4 border-gray-400 px-4 text-slate-600 font-bold">Add new appointment</div>
       <div class="flex justify-between items-center h-3/4">
          <div class="flex w-4/5 gap-4">
-            <img class="bg-white rounded-full w-20 aspect-square" :src="userProfilePicture" alt="Profile Picture" /><!-- Replace img src with your intended img -->
+            <img class="bg-white rounded-full w-20 aspect-square" :src="userProfilePicture"
+               alt="Profile Picture" /><!-- Replace img src with your intended img -->
             <div class="flex flex-col justify-evenly w-5/6 overflow-hidden">
                <div class="flex gap-5 items-end">
                   <h1 class="whitespace-nowrap text-3xl font-bold">{{ userName }}</h1>

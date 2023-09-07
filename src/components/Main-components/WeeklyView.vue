@@ -2,7 +2,7 @@
 import { eachDayOfInterval, getHours, startOfToday, set, format, isSameDay, eachHourOfInterval, addHours } from 'date-fns';
 import { PropType, computed } from 'vue';
 import WeeklyTask from './WeeklyTask.vue';
-import { Appointment} from '../types';
+import { Appointment } from '../types';
 
 const props = defineProps({
    appointments: Array as PropType<Appointment[]>,

@@ -1,19 +1,20 @@
 <script setup lang="ts">
+import { startOfToday, isSameDay, startOfWeek, endOfWeek, add, startOfMonth, endOfMonth } from 'date-fns';
+import { ref } from 'vue';
+import { v4 as uuidv4 } from 'uuid';
+
 import Header from './Main-components/Header.vue';
 import OptionsBar from './Main-components/OptionsBar.vue';
 import WeeklyView from './Main-components/WeeklyView.vue';
 import MonthlyView from './Main-components/MonthlyView.vue';
 import SidePanel from './SidePanel-components/SidePanel.vue';
 import { FormData } from './types';
-
-import { startOfToday, isSameDay, startOfWeek, endOfWeek, add, startOfMonth, endOfMonth } from 'date-fns';
-import { ref } from 'vue';
-import { v4 as uuidv4 } from 'uuid';
+import { sampleAppointments } from '../assets/sampleData';
 
 const generateRandomID = () => uuidv4().slice(0, 8);
 const notifications: any[] = [0, 1, 2]; // Change the type based on the actual notifications data
 const modes = ['list', 'monthly', 'weekly'];
-const mode = ref(modes[2]);
+const mode = ref(modes[2]); // The Mode state is when the calendar will show ListView, MonthlyView or WeeklyView
 
 const currentDate = startOfToday();
 const getCurrentWeekStart = () => startOfWeek(currentDate, { weekStartsOn: 1 });
@@ -71,48 +72,7 @@ const getNextDate = () => {
    }
 }
 
-const appointments = ref([
-   {
-      date: new Date('2023-09-04'),
-      events: [
-         {
-            id: generateRandomID(),
-            patient: {
-               profilePicture: 'vue.svg',
-               name: 'Eleanor Pena',
-               emailAddress: 'eleanor@pena.co',
-               phone: '(270) 555-0117',
-               address: ' 2715 Ash Dr. San Jose, South Dakota 837475'
-            },
-            service: {
-               nameOfService: 'service1',
-               price: 0
-            },
-            startTime: new Date('2023-09-04 1:15:00'),
-            endTime: new Date('2023-09-04 3:00:00'),
-            timeStamp: new Date('2023-09-04 4:04:04')
-         },
-         {
-            id: generateRandomID(),
-            patient: {
-               profilePicture: 'vue.svg',
-               name: "Oliver Bennett",
-               emailAddress: "oliver@bennett.co",
-               phone: "(415) 555-1234",
-               address: "123 Elm Street, Springfield, IL 62701"
-            },
-            service: {
-               nameOfService: 'service2',
-               price: 10
-            },
-            startTime: new Date('2023-09-04 5:15:00'),
-            endTime: new Date('2023-09-04 9:45:00'),
-            timeStamp: new Date('2023-09-04 7:07:07')
-         }
-      ]
-   }
-]);
-
+const appointments = ref(sampleAppointments)
 const addAppointment = (formData: FormData) => {
    const { service, patient, startingDateTime, endingDateTime } = formData;
    const indexOfSameDate = appointments.value.findIndex((appointment) => isSameDay(appointment.date, startingDateTime));

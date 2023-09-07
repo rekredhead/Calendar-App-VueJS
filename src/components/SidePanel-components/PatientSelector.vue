@@ -1,20 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, PropType } from 'vue';
 import { Patient } from '../types';
+import { availablePatients } from '../../assets/sampleData';
 
 const props = defineProps({
    patient: Object as PropType<Patient>,
    setPatient: Function
 });
-
-const availablePatients = [
-   { profilePicture: 'vue.svg', name: 'Eleanor Pena', emailAddress: 'eleanor@pena.co', phone: '(270) 555-0117', address: ' 2715 Ash Dr. San Jose, South Dakota 837475' },
-   { profilePicture: 'vue.svg', name: "Oliver Bennett", emailAddress: "oliver@bennett.co", phone: "(415) 555-1234", address: "123 Elm Street, Springfield, IL 62701" },
-   { profilePicture: 'vue.svg', name: "Sophia Rodriguez", emailAddress: "sophia@rodriguez.co", phone: "(602) 555-5678", address: "789 Oak Avenue, Phoenix, AZ 85001" },
-   { profilePicture: 'vue.svg', name: "Liam Campbell", emailAddress: "liam@campbell.co", phone: "(312) 555-7890", address: "456 Maple Lane, Chicago, IL 60601" },
-   { profilePicture: 'vue.svg', name: "Ava Foster", emailAddress: "ava@foster.co", phone: "(713) 555-2345", address: "987 Pine Road, Houston, TX 77001" },
-   { profilePicture: 'vue.svg', name: "Noah Hughes", emailAddress: "noah@hughes.co", phone: "(502) 555-6789", address: "654 Birch Street, Louisville, KY 40201" }
-];
 
 const isPatientSelected = () => Object.keys(props.patient!).length;
 
@@ -60,16 +52,18 @@ const selectPatients = (patient: Patient) => {
                   <li v-for="(patient, index) in filteredPatients" :key="index"
                      class="flex gap-2 items-center px-3 py-3 text-slate-500 cursor-pointer border-l-4 border-transparent hover:bg-green-100 hover:text-green-500 hover:border-green-500"
                      @click="selectPatients(patient)">
-                     <img class="bg-white w-8 aspect-square rounded-full" v-bind:src="patient.profilePicture" v-bind:alt="patient.name + ' Profile Picture'" />
+                     <img class="bg-white w-8 aspect-square rounded-full" v-bind:src="patient.profilePicture"
+                        v-bind:alt="patient.name + ' Profile Picture'" />
                      <span class="text-lg">{{ patient.name }}</span>
                   </li>
                </ul>
             </div>
 
-            <!-- Render the choice selected if their choice was selected -->
+            <!-- Render the choice-selected if the user has selected their choice -->
             <div class="flex" v-show="isPatientSelected()">
                <div class="w-16">
-                  <img class="bg-white w-full aspect-square rounded-full" v-bind:src="patient?.profilePicture" v-bind:alt="patient?.name + ' Profile Picture'" />
+                  <img class="bg-white w-full aspect-square rounded-full" v-bind:src="patient?.profilePicture"
+                     v-bind:alt="patient?.name + ' Profile Picture'" />
                </div>
                <div class="w-full ml-5">
                   <h1 class="text-xl text-gray-700 font-semibold pb-2 border-b border-slate-300">{{ patient?.name }}</h1>

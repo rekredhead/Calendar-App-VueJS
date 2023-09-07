@@ -84,7 +84,8 @@ const submitDateTime = () => {
             <!-- Render the choice selected if their choice was selected v-show="isDateTimeSelected()" -->
             <div class="flex flex-col w-full gap-2 px-2" v-show="!isEditingOn">
                <h1 class="text-xl text-gray-700">
-                  {{ format(props.startingDateTime!, 'EEEE, dd MMMM HH:mm') }} - {{ format(props.endingDateTime!, 'HH:mm') }}
+                  {{ format(props.startingDateTime!, 'EEEE, dd MMMM HH:mm') }} - {{ format(props.endingDateTime!, 'HH:mm')
+                  }}
                </h1>
                <h2 class="text-slate-400 text-sm">*patient approval is needed</h2>
             </div>
