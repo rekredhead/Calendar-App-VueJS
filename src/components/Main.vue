@@ -1,15 +1,72 @@
 <script setup lang="ts">
 import Header from './Main-components/Header.vue';
 import OptionsBar from './Main-components/OptionsBar.vue';
-import Body from './Main-components/Body.vue';
+import WeeklyView from './Main-components/WeeklyView.vue';
+import MonthlyView from './Main-components/MonthlyView.vue';
 import SidePanel from './SidePanel-components/SidePanel.vue';
 import { FormData } from './types';
 
-import { startOfToday, isSameDay, startOfWeek, endOfWeek, add } from 'date-fns';
+import { startOfToday, isSameDay, startOfWeek, endOfWeek, add, startOfMonth, endOfMonth } from 'date-fns';
 import { ref } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 
 const generateRandomID = () => uuidv4().slice(0, 8);
+const notifications: any[] = [0, 1, 2]; // Change the type based on the actual notifications data
+const modes = ['list', 'monthly', 'weekly'];
+const mode = ref(modes[1]);
+
+const currentDate = startOfToday();
+const getCurrentWeekStart = () => startOfWeek(currentDate, { weekStartsOn: 1 });
+const getCurrentWeekEnd = () => endOfWeek(currentDate, { weekStartsOn: 1 });
+const getCurrentMonthStart = () => startOfMonth(currentDate);
+const getCurrentMonthEnd = () => endOfMonth(currentDate);
+
+const selectedDateStart = ref(getCurrentMonthStart());
+const selectedDateEnd = ref(getCurrentMonthEnd());
+
+const setMode = (newMode: string) => {
+   mode.value = newMode;
+   switch (newMode) {
+      case modes[1]:
+         // Set selected date to monthly
+         selectedDateStart.value = getCurrentMonthStart();
+         selectedDateEnd.value = getCurrentMonthEnd();
+         break;
+      case modes[2]:
+         // Set selected date to weekly
+         selectedDateStart.value = getCurrentWeekStart();
+         selectedDateEnd.value = getCurrentWeekEnd();
+         break;
+   }
+}
+const getPreviousDate = () => {
+   switch (mode.value) {
+      case modes[1]:
+         // Get previous month
+         selectedDateStart.value = add(selectedDateStart.value, { months: -1 });
+         selectedDateEnd.value = add(selectedDateEnd.value, { months: -1 });
+         break;
+      case modes[2]:
+         // Get previous week
+         selectedDateStart.value = add(selectedDateStart.value, { weeks: -1 });
+         selectedDateEnd.value = add(selectedDateEnd.value, { weeks: -1 });
+         break;
+   }
+}
+const getNextDate = () => {
+   switch (mode.value) {
+      case modes[1]:
+         // Get next month
+         selectedDateStart.value = add(selectedDateStart.value, { months: 1 });
+         selectedDateEnd.value = add(selectedDateEnd.value, { months: 1 });
+         break;
+      case modes[2]:
+         // Get next week
+         selectedDateStart.value = add(selectedDateStart.value, { weeks: 1 });
+         selectedDateEnd.value = add(selectedDateEnd.value, { weeks: 1 });
+         break;
+   }
+}
 
 const appointments = ref([
    {
@@ -123,21 +180,6 @@ const editAppointment = (formData: FormData) => {
    }
 }
 
-const currentDate = startOfToday();
-const currentWeekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
-const currentWeekEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
-const selectedWeekStart = ref(currentWeekStart);
-const selectedWeekEnd = ref(currentWeekEnd);
-
-const getPreviousDate = () => {
-   selectedWeekStart.value = add(selectedWeekStart.value, { weeks: -1 });
-   selectedWeekEnd.value = add(selectedWeekEnd.value, { weeks: -1 });
-}
-const getNextDate = () => {
-   selectedWeekStart.value = add(selectedWeekStart.value, { weeks: 1 });
-   selectedWeekEnd.value = add(selectedWeekEnd.value, { weeks: 1 });
-}
-
 const isSidePanelOpen = ref(false);
 const sidePanelFormData = ref<FormData>({
    id: '',
@@ -168,12 +210,18 @@ const closeSidePanel = () => {
 
 <template>
    <div class="flex relative flex-col h-screen bg-blue-100 pb-5">
-      <Header></Header>
-      <OptionsBar :selectedWeekStart="selectedWeekStart" :selectedWeekEnd="selectedWeekEnd"
+      <Header :mode="mode" :setMode="setMode" :modes="modes" :notifications="notifications"></Header>
+      <OptionsBar :mode="mode" :modes="modes" :selectedDateStart="selectedDateStart" :selectedDateEnd="selectedDateEnd"
          :getPreviousDate="getPreviousDate" :getNextDate="getNextDate"></OptionsBar>
 
-      <Body :appointments="appointments" :selectedWeekStart="selectedWeekStart" :selectedWeekEnd="selectedWeekEnd"
-         :openSidePanel="openSidePanel"></Body>
+      <div v-if="mode === modes[0]">ListView Component not available</div>
+
+      <MonthlyView v-if="mode === modes[1]" :appointments="appointments" :selectedDateStart="selectedDateStart"
+         :selectedDateEnd="selectedDateEnd" :openSidePanel="openSidePanel"></MonthlyView>
+
+      <WeeklyView v-if="mode === modes[2]" :appointments="appointments" :selectedDateStart="selectedDateStart"
+         :selectedDateEnd="selectedDateEnd" :openSidePanel="openSidePanel"></WeeklyView>
+
       <div v-if="isSidePanelOpen" class="absolute inset-0 bg-black opacity-40"></div>
       <SidePanel :isSidePanelOpen="isSidePanelOpen" :addAppointment="addAppointment" :editAppointment="editAppointment"
          :closeSidePanel="closeSidePanel" :sidePanelFormData="sidePanelFormData" />

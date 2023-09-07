@@ -1,5 +1,6 @@
 # Todos
 - More Priority
+3. Change the initial mode state to weekly after finish
 4. Make the page more responsive
 5. Update the documentation and add enough commenting
 6. Clean the code and components

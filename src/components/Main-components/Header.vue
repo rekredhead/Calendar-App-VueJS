@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+const props = defineProps({
+   notifications: Array<any>,
+   modes: Array<String>,
+   mode: String,
+   setMode: Function
+});
 
-const notifications: any[] = [ 1, 2, 3 ]; // Change the type based on the actual notifications data
-const modes = ['list', 'monthly', 'weekly'];
-const mode = ref(modes[2]);
-
-const toTitleCase = (word: string) => word.toLowerCase().replace(/(?:^|\s)\w/g, match => match.toUpperCase());
-const handleModeChange = (item: string) => {
-   if (mode.value === item) return; // Do not run if the mode hasn't changed
-
-   mode.value = item;
-   // More code for changing the main calendar when mode state changes
+const toTitleCase = (word: String) => word.toLowerCase().replace(/(?:^|\s)\w/g, match => match.toUpperCase());
+const handleModeChange = (item: String) => {
+   if (props.mode! === item) return; // Do not run if the mode hasn't changed
+   props.setMode!(item)
 }
 const handleAdd = () => {
    console.log('add button pressed');
@@ -53,7 +52,7 @@ const handleNotificationClick = () => {
             @click="handleNotificationClick"
             class="flex relative p-2 rounded-full bg-white hover:bg-slate-100 active:bg-slate-200"
          >
-            <div v-if="notifications.length" class="flex absolute top-0 right-0 bg-red-500 h-4 w-4 rounded-full translate-x-1"></div>
+            <div v-if="props.notifications!.length" class="flex absolute top-0 right-0 bg-red-500 h-4 w-4 rounded-full translate-x-1"></div>
             <span class="material-symbols-outlined">notifications</span>
          </button>
       </div>

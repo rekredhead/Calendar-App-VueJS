@@ -2,8 +2,10 @@
 import { format } from 'date-fns';
 
 defineProps<{
-   selectedWeekStart: Date,
-   selectedWeekEnd: Date,
+   mode: String,
+   modes: Array<String>,
+   selectedDateStart: Date,
+   selectedDateEnd: Date,
    getPreviousDate: Function,
    getNextDate: Function
 }>();
@@ -27,7 +29,7 @@ const handleScheduleSettingClick = () => {
       <div class="flex gap-1 justify-between items-center w-60">
          <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getPreviousDate()">&lt;</button>
          <span class="bg-white py-1 text-slate-500 rounded-md w-full text-center">
-            {{ `${format(selectedWeekStart, 'MMM dd')} - ${format(selectedWeekEnd, 'MMM dd, yyyy')}` }}
+            {{ `${format(selectedDateStart, 'MMM dd')} - ${format(selectedDateEnd, 'MMM dd, yyyy')}` }}
          </span>
          <button class="bg-white px-2 py-1 text-slate-500 rounded-md" @click="getNextDate()">&gt;</button>
       </div>
