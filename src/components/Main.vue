@@ -43,8 +43,9 @@ const getPreviousDate = () => {
    switch (mode.value) {
       case modes[1]:
          // Get previous month
+         const endOfSelectedMonth = add(selectedDateEnd.value, { months: -1 });
          selectedDateStart.value = add(selectedDateStart.value, { months: -1 });
-         selectedDateEnd.value = add(selectedDateEnd.value, { months: -1 });
+         selectedDateEnd.value = endOfMonth(endOfSelectedMonth);
          break;
       case modes[2]:
          // Get previous week
@@ -57,8 +58,9 @@ const getNextDate = () => {
    switch (mode.value) {
       case modes[1]:
          // Get next month
+         const endOfSelectedMonth = add(selectedDateEnd.value, { months: 1 });
          selectedDateStart.value = add(selectedDateStart.value, { months: 1 });
-         selectedDateEnd.value = add(selectedDateEnd.value, { months: 1 });
+         selectedDateEnd.value = endOfMonth(endOfSelectedMonth);
          break;
       case modes[2]:
          // Get next week
