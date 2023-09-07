@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { eachDayOfInterval, isSameDay, startOfToday, format } from 'date-fns';
+import { eachDayOfInterval, isSameDay, startOfToday, format, addHours } from 'date-fns';
 import { PropType, computed } from 'vue';
 import MonthlyTask from './MonthlyTask.vue';
 import { Appointment } from '../types';
@@ -17,14 +17,24 @@ const daysOfMonth = computed(() => eachDayOfInterval({
    end: props.selectedDateEnd!
 }));
 
-//const handleDateTimeClick = () => {return;}
+const handleDateTimeClick = (selectedDay: Date) => {
+   props.openSidePanel!({
+      service: {},
+      patient: {},
+      startingDateTime: selectedDay,
+      endingDateTime: addHours(selectedDay, 1)
+   })
+}
 </script>
 
 <template>
    <main class="flex flex-col h-[86%] pl-3">
       <div class="grid grid-cols-7 h-full border-t border-slate-400 overflow-y-scroll">
-         <div v-for="dayOfMonth in daysOfMonth"
-            class="flex flex-col p-1 text-sm border-l border-b border-slate-400 last:border-r">
+         <div
+            v-for="dayOfMonth in daysOfMonth"
+            @click="handleDateTimeClick(dayOfMonth)"
+            class="flex flex-col p-1 text-sm border-l border-b border-slate-400 last:border-r"
+         >
             <div class="flex justify-center">
                <p class="flex justify-center items-center h-6 w-6 rounded-full"
                   :class="{ 'text-white bg-blue-600': isSameDay(dayOfMonth, currentDate) }">{{ format(dayOfMonth, 'dd') }}
