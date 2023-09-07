@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// The NavBar does not have any functionality
+// Note: The NavBar does not have any functionality
 
 import { ref } from 'vue';
 import Header from './NavBar-components/Header.vue';

@@ -13,6 +13,7 @@ const initialHeight = ref(0);
 const startY = ref(0);
 const startTime = ref(props.event!.startTime);
 const endTime = ref(props.event!.endTime);
+// Warning: Sometimes after form submissions, the startTime and endTime will react only after refreshing or changing the modes
 
 const convertTimeToTopEM = (time: Date) => `${(time.getHours() * 4 + ((time.getMinutes() * 4) / 60))}em`;
 const convertTimeToHeightEM = (startingTime: Date, endingTime: Date) => {

@@ -13,7 +13,7 @@ import { FormData } from './types';
 import { sampleAppointments } from '../assets/sampleData';
 
 const generateRandomID = () => uuidv4().slice(0, 8);
-const notifications: any[] = [0, 1, 2]; // Change the type based on the actual notifications data
+const notifications: any[] = [0, 1, 2]; // Note: Change the type based on the actual notifications data
 const modes = ['list', 'monthly', 'weekly'];
 const mode = ref(modes[2]); // The Mode state is when the calendar will show ListView, MonthlyView or WeeklyView
 
