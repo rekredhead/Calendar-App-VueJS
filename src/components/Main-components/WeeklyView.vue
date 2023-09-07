@@ -6,15 +6,15 @@ import { Appointment} from '../types';
 
 const props = defineProps({
    appointments: Array as PropType<Appointment[]>,
-   selectedWeekStart: Date,
-   selectedWeekEnd: Date,
+   selectedDateStart: Date,
+   selectedDateEnd: Date,
    openSidePanel: Function
 });
 
 const currentDate = startOfToday();
 const daysOfWeek = computed(() => eachDayOfInterval({
-   start: props.selectedWeekStart!,
-   end: props.selectedWeekEnd!
+   start: props.selectedDateStart!,
+   end: props.selectedDateEnd!
 }));
 const hoursOfDay = eachHourOfInterval({
    start: currentDate,
