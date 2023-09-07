@@ -60,14 +60,14 @@ const submitForm = () => {
 </script>
 
 <template>
-   <form @submit.prevent class="flex flex-col justify-between items-center h-[47em] w-full overflow-y-scroll p-5">
-      <div class=" w-full">
+   <form @submit.prevent class="flex flex-col justify-between items-center h-3/4 w-full pt-5">
+      <div class="w-full h-[85%] overflow-y-scroll pr-5">
          <ServiceSelector :service="service" :setService="setService" />
          <PatientSelector :patient="patient" :setPatient="setPatient" />
          <DateTimeSelector :startingDateTime="startingDateTime" :endingDateTime="endingDateTime"
             :setStartingDateTime="setStartingDateTime" :setEndingDateTime="setEndingDateTime" />
       </div>
-      <div class="flex justify-end gap-4 h-12 w-full">
+      <div class="flex justify-end pr-5 gap-4 h-14 w-full">
          <button @click="props.closeSidePanel!()"
             class="bg-slate-100 text-slate-500 font-bold rounded-md w-1/4 hover:bg-slate-200">Cancel</button>
          <button @click="submitForm"
