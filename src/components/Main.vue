@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Header from './Main-components/Header.vue';
 import OptionsBar from './Main-components/OptionsBar.vue';
+import ListView from './Main-components/ListView.vue';
 import WeeklyView from './Main-components/WeeklyView.vue';
 import MonthlyView from './Main-components/MonthlyView.vue';
 import SidePanel from './SidePanel-components/SidePanel.vue';
@@ -22,13 +23,29 @@ const getCurrentWeekEnd = () => endOfWeek(currentDate, { weekStartsOn: 1 });
 const getCurrentMonthStart = () => startOfMonth(currentDate);
 const getCurrentMonthEnd = () => endOfMonth(currentDate);
 
-// Modify this when the ListView is added - the conditional statement is there to make it easier to change the mode's state
-const selectedDateStart = ref(mode.value === modes[1] ? getCurrentMonthStart() : getCurrentWeekStart());
-const selectedDateEnd = ref(mode.value === modes[1] ? getCurrentMonthEnd() : getCurrentWeekEnd());
+const selectedDateStart = ref(
+   mode.value === modes[0] ?
+      currentDate :
+      mode.value === modes[1] ?
+         getCurrentMonthStart() :
+         getCurrentWeekStart()
+);
+const selectedDateEnd = ref(
+   mode.value === modes[0] ?
+      currentDate :
+      mode.value === modes[1] ?
+         getCurrentMonthEnd() :
+         getCurrentWeekEnd()
+);
 
 const setMode = (newMode: string) => {
    mode.value = newMode;
    switch (newMode) {
+      case modes[0]:
+         // Set selected date to list
+         selectedDateStart.value = currentDate;
+         selectedDateEnd.value = currentDate;
+         break;
       case modes[1]:
          // Set selected date to monthly
          selectedDateStart.value = getCurrentMonthStart();
@@ -43,6 +60,11 @@ const setMode = (newMode: string) => {
 }
 const getPreviousDate = () => {
    switch (mode.value) {
+      case modes[0]:
+         // Get previous day
+         selectedDateStart.value = add(selectedDateStart.value, { days: -1 });
+         selectedDateEnd.value = add(selectedDateEnd.value, { days: -1 });
+         break;
       case modes[1]:
          // Get previous month
          const endOfSelectedMonth = add(selectedDateEnd.value, { months: -1 });
@@ -58,6 +80,11 @@ const getPreviousDate = () => {
 }
 const getNextDate = () => {
    switch (mode.value) {
+      case modes[0]:
+         // Get previous day
+         selectedDateStart.value = add(selectedDateStart.value, { days: 1 });
+         selectedDateEnd.value = add(selectedDateEnd.value, { days: 1 });
+         break;
       case modes[1]:
          // Get next month
          const endOfSelectedMonth = add(selectedDateEnd.value, { months: 1 });
@@ -177,7 +204,8 @@ const closeSidePanel = () => {
       <OptionsBar :mode="mode" :modes="modes" :selectedDateStart="selectedDateStart" :selectedDateEnd="selectedDateEnd"
          :getPreviousDate="getPreviousDate" :getNextDate="getNextDate"></OptionsBar>
 
-      <div v-if="mode === modes[0]">ListView Component not available</div>
+      <ListView v-if="mode === modes[0]" :appointments="appointments" :selectedDateStart="selectedDateStart"
+         :selectedDateEnd="selectedDateEnd" :openSidePanel="openSidePanel"></ListView>
 
       <MonthlyView v-if="mode === modes[1]" :appointments="appointments" :selectedDateStart="selectedDateStart"
          :selectedDateEnd="selectedDateEnd" :openSidePanel="openSidePanel"></MonthlyView>

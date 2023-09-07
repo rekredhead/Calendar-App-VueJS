@@ -3,6 +3,28 @@ const generateRandomID = () => uuidv4().slice(0, 8);
 
 export const sampleAppointments = [
    {
+      date: new Date('2023-09-07'),
+      events: [
+         {
+            id: generateRandomID(),
+            patient: {
+               profilePicture: 'vue.svg',
+               name: "Oliver Bennett",
+               emailAddress: "oliver@bennett.co",
+               phone: "(415) 555-1234",
+               address: "123 Elm Street, Springfield, IL 62701"
+            },
+            service: {
+               nameOfService: 'service2',
+               price: 10
+            },
+            startTime: new Date('2023-09-07 2:15:00'),
+            endTime: new Date('2023-09-07 5:45:00'),
+            timeStamp: new Date('2023-09-07 7:07:07')
+         }
+      ]
+   },
+   {
       date: new Date('2023-09-04'),
       events: [
          {
@@ -21,23 +43,6 @@ export const sampleAppointments = [
             startTime: new Date('2023-09-04 1:15:00'),
             endTime: new Date('2023-09-04 3:00:00'),
             timeStamp: new Date('2023-09-04 4:04:04')
-         },
-         {
-            id: generateRandomID(),
-            patient: {
-               profilePicture: 'vue.svg',
-               name: "Oliver Bennett",
-               emailAddress: "oliver@bennett.co",
-               phone: "(415) 555-1234",
-               address: "123 Elm Street, Springfield, IL 62701"
-            },
-            service: {
-               nameOfService: 'service2',
-               price: 10
-            },
-            startTime: new Date('2023-09-04 5:15:00'),
-            endTime: new Date('2023-09-04 9:45:00'),
-            timeStamp: new Date('2023-09-04 7:07:07')
          }
       ]
    }
