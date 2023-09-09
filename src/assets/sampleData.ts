@@ -8,7 +8,7 @@ export const sampleAppointments = [
          {
             id: generateRandomID(),
             patient: {
-               profilePicture: 'vue.svg',
+               profilePicture: '/sample.png',
                name: "Oliver Bennett",
                emailAddress: "oliver@bennett.co",
                phone: "(415) 555-1234",
@@ -30,7 +30,7 @@ export const sampleAppointments = [
          {
             id: generateRandomID(),
             patient: {
-               profilePicture: 'vue.svg',
+               profilePicture: '/sample.png',
                name: 'Eleanor Pena',
                emailAddress: 'eleanor@pena.co',
                phone: '(270) 555-0117',
@@ -57,10 +57,10 @@ export const availableServices = [
 ];
 
 export const availablePatients = [
-   { profilePicture: 'vue.svg', name: 'Eleanor Pena', emailAddress: 'eleanor@pena.co', phone: '(270) 555-0117', address: ' 2715 Ash Dr. San Jose, South Dakota 837475' },
-   { profilePicture: 'vue.svg', name: "Oliver Bennett", emailAddress: "oliver@bennett.co", phone: "(415) 555-1234", address: "123 Elm Street, Springfield, IL 62701" },
-   { profilePicture: 'vue.svg', name: "Sophia Rodriguez", emailAddress: "sophia@rodriguez.co", phone: "(602) 555-5678", address: "789 Oak Avenue, Phoenix, AZ 85001" },
-   { profilePicture: 'vue.svg', name: "Liam Campbell", emailAddress: "liam@campbell.co", phone: "(312) 555-7890", address: "456 Maple Lane, Chicago, IL 60601" },
-   { profilePicture: 'vue.svg', name: "Ava Foster", emailAddress: "ava@foster.co", phone: "(713) 555-2345", address: "987 Pine Road, Houston, TX 77001" },
-   { profilePicture: 'vue.svg', name: "Noah Hughes", emailAddress: "noah@hughes.co", phone: "(502) 555-6789", address: "654 Birch Street, Louisville, KY 40201" }
+   { profilePicture: '/sample.png', name: 'Eleanor Pena', emailAddress: 'eleanor@pena.co', phone: '(270) 555-0117', address: ' 2715 Ash Dr. San Jose, South Dakota 837475' },
+   { profilePicture: '/sample.png', name: "Oliver Bennett", emailAddress: "oliver@bennett.co", phone: "(415) 555-1234", address: "123 Elm Street, Springfield, IL 62701" },
+   { profilePicture: '/sample.png', name: "Sophia Rodriguez", emailAddress: "sophia@rodriguez.co", phone: "(602) 555-5678", address: "789 Oak Avenue, Phoenix, AZ 85001" },
+   { profilePicture: '/sample.png', name: "Liam Campbell", emailAddress: "liam@campbell.co", phone: "(312) 555-7890", address: "456 Maple Lane, Chicago, IL 60601" },
+   { profilePicture: '/sample.png', name: "Ava Foster", emailAddress: "ava@foster.co", phone: "(713) 555-2345", address: "987 Pine Road, Houston, TX 77001" },
+   { profilePicture: '/sample.png', name: "Noah Hughes", emailAddress: "noah@hughes.co", phone: "(502) 555-6789", address: "654 Birch Street, Louisville, KY 40201" }
 ];

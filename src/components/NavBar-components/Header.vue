@@ -5,7 +5,7 @@
    <header class="flex flex-row justify-between items-center h-12 p-2 mt-3 mb-6">
       <div class="flex w-4/5 gap-2 items-center">
          <!-- Replace logo src with your intended logo -->
-         <img class="w-1/5 aspect-square" src="vue.svg" alt="Logo" />
+         <img class="w-1/5 aspect-square" src="/sample.png" alt="Logo" />
 
          <div class="overflow-hidden">
             <h1 class="whitespace-nowrap text-2xl font-bold">Zendenta</h1>

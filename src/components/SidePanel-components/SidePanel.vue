@@ -12,7 +12,7 @@ const props = defineProps({
    sidePanelFormData: Object as PropType<FormData>
 });
 
-const userProfilePicture = ref('vue.svg');
+const userProfilePicture = ref('sample.png');
 const userName = ref('User Name');
 const userEmailAddress = ref('User Email Address');
 const userPosition = ref('User Position');

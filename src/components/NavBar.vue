@@ -15,7 +15,7 @@ const navButtonsInfo = ref([
    { id: 5, icon: 'tune', title: 'Settings' },
 ]);
 
-const userProfilePicture = ref('vue.svg');
+const userProfilePicture = ref('/sample.png');
 const userName = ref('User Name');
 const userCareer = ref('User Career');
 </script>
